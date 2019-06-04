@@ -55,11 +55,12 @@
             <div class="card-header">
              Products
             </div>
-            <ul class="list-group list-group-flush" id="dynamic-list">
-              <li class="list-group-item"> <a href="#">Dell Inspiron 5577</a> <span style="float: right"> <h6>Starting Bid</h6> <h6>Current Bid: </h6><a href="#">Bid Log</a></span></li>
-              <li class="list-group-item"><a href="#" id="pro2"></a>  <span style="float: right"><h6>Starting Bid</h6><h6>Current Bid: </h6><a href="#">Bid Log</a></span></li>
-              <li class="list-group-item"><a href="#">Apple Iphone Xs max</a>  <span style="float: right"><h6>Starting Bid</h6><h6>Current Bid: </h6><a href="#">Bid Log</a></span></li>
-            
+            <ul class="list-group list-group-flush" id="pro2" >
+              <div id="proo">
+
+              </div>
+              <!-- <li class="list-group-item"> <a href="#" id="pro2"></a> </li> -->
+             
             </ul>
           </div>
           <div class="card w-75">
@@ -68,9 +69,11 @@
               
               <p class="card-text">
 
-                <input type="text" id="candidate"/>
-                <button class="btn btn-primary" onclick="addItem()">add item</button>
-                <button class="btn btn-primary" onclick="removeItem()">remove item</button></p>
+                <input type="text" id="naam"/>
+                <input type="text" id="deescription"/>
+                <input type="text" id="sttartbid"/>
+                <button class="btn btn-primary" onclick="addddd(); mApp.addd();">add item</button>
+                <button class="btn btn-primary" onclick=" app.removePro()">remove item</button></p>
               
             </div>
           </div>
@@ -81,6 +84,7 @@
         <script src="fireBase.js"></script>
         <script src="authentication.js"></script>
         <script src="data.js"></script>
+        <script src="data1.js"></script>
         <script src="script.js"></script>
     </body>
 </html>

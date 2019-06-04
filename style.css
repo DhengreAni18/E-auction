@@ -1,5 +1,5 @@
 .card {
-    width: 90rem;
+    width: auto;
     margin-top: 100px;
     margin-left: 40px;
 }
@@ -11,4 +11,14 @@
 
 .col-sm-2{
     margin-left: 100px;
+}
+
+.dynamic-list li {
+    color: red;
+    font-size: 10px;
+}
+
+#pro2 li {
+    font-size: 20px;
+    list-style: none;
 }

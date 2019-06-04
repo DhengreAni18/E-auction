@@ -1,25 +1,46 @@
+var app ={};
+
 (function(){
 
         const preObject = document.getElementById('pro2');
-        const dbRefObj = firebase.database().ref('Products/Samsung s10');
-      
 
-      dbRefObj.on('value', snap => {
-        var daata = snap.val();
-        preObject.innerText = daata.name;
-      });
-      
-      
-      // const FirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-      // const userid = user.getUid();
-    //   var database = firebase.database();
+      var query = firebase.database().ref("Products").orderByKey();
+query.on("child_added", function(snapshot) {
+  
+    // key will be "ada" the first time and "alan" the second time
+   var key = snapshot.key;
+    var childData = snapshot.val();
+    // preObject.innerHTML = childData.name + '<span style="float: right"> <h6>Starting Bid</h6> <h6>Current Bid: </h6><a href="#">Bid Log</a></span>';
+    // console.log(JSON.stringify(childData.name));
 
-    //   let ref = database.ref('/Users/' + firebase.auth().currentUser.uid).once('value').then(function(snapshot) {
-    //     let userData = snapshot.val();
-    //     console.log(userData.name);
-    // })
+console.log(key);
+    var names = childData.name;
+    var startbid = childData.startbid;
+    for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
+      var name = names;
+      var startbid = startbid;
+      var ul = document.getElementById("pro2");
+      var li = document.createElement('li');
       
-    // console.log(firebase.auth().currentUser);
+  }
+
+  // li.innerHTML = " <style></style>"
+  li.appendChild( document.createTextNode(name));
+      ul.appendChild(li);
+
+  
+      
+    var bid = document.createTextNode(startbid);
+       li.appendChild(bid);
+        
+      var stbid = ul.appendChild(li);
+      // stbid.outerHTML= '<br></br>';
+});
+
+
+    
+      
+     
       var user = firebase.auth().currentUser;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -31,19 +52,31 @@
       }
     });
 
+    
 
-//     var playersRef = firebase.database().ref("players/");
+    
 
-// playersRef.set ({
-//    John: {
-//       number: 1,
-//       age: 30
-//    },
-	
-//    Amanda: {
-//       number: 2,
-//       age: 20
-//    }
-// });
+    // var proref = firebase.database().ref('Products');
+    
+    // var addpro = proref.push(
+    //   {
+    //     name: document.getElementById('naame'),
+    //     description: document.getElementById('deescription'),
+    //     startbid: document.getElementById('sttartbid')
+        
+    //   }
+    // );
+    
+    // var removePro = 'macbook pro';
+    //   proref.orderByChild('name').equalTo(removePro)
+    //       .once('value').then(function(snapshot) {
+    //           snapshot.forEach(function(childSnapshot) {
+    //           //remove each child
+    //           proref.child(childSnapshot.key).remove();
+    //       });
+    //   });
 
+      
+
+    
 }());
