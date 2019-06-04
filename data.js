@@ -1,12 +1,13 @@
 (function(){
 
-      //   const preObject = document.getElementById('object');
-      //   const dbRefObj = firebase.database().ref().child('object');
+        const preObject = document.getElementById('pro2');
+        const dbRefObj = firebase.database().ref('Products/Samsung s10');
       
 
-      // dbRefObj.on('value', snap => {
-      //   preObject.innerText = JSON.stringify(snap.val());
-      // });
+      dbRefObj.on('value', snap => {
+        var daata = snap.val();
+        preObject.innerText = daata.name;
+      });
       
       
       // const FirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -24,10 +25,25 @@
       if (user) {
         // User is signed in.
         name = user.displayName;
-        document.getElementById('username').innerText = name;
+        document.getElementById('userName').innerText = 'Welcome ' + name;
       } else {
         // No user is signed in.
       }
     });
+
+
+//     var playersRef = firebase.database().ref("players/");
+
+// playersRef.set ({
+//    John: {
+//       number: 1,
+//       age: 30
+//    },
+	
+//    Amanda: {
+//       number: 2,
+//       age: 20
+//    }
+// });
 
 }());

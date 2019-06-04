@@ -1,0 +1,14 @@
+.card {
+    width: 90rem;
+    margin-top: 100px;
+    margin-left: 40px;
+}
+
+.card-header {
+    text-align :center;
+
+}
+
+.col-sm-2{
+    margin-left: 100px;
+}
