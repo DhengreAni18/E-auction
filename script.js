@@ -15,21 +15,24 @@ function removeItem(){
 }
 
 
-function addddd() {
-    var proref = firebase.database().ref('Products');
-    
-    var addpro = proref.push(
-      {
-        name: document.getElementById('naam'),
-        description: document.getElementById('deescription'),
-        startbid: document.getElementById('sttartbid')
-      }
-    
-    );
-      console.log(naam);
+
+
+function asd(a)
+{
+    if(a==1)
+    document.getElementById("asd").style.display="none";
+    else
+    document.getElementById("asd").style.display="block";
 }
 
-
+function myFunction() {
+  var x = document.getElementById("asd");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 // function Delete(key,uid){
 //     var feedRef = firebase.database.ref("Products").child(uid).child(key);
 //     feedRef.remove()

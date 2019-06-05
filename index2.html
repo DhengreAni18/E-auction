@@ -15,11 +15,6 @@
         <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
-
-              <script
-        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-        crossorigin="anonymous"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,7 +29,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="#">Link</a>
                 </li>
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
                   </a>
@@ -43,9 +38,11 @@
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
-                  </div> -->
+                  </div>
                 </li>
-                
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
               </ul>
               <form class="form-inline my-2 my-lg-0">
                 <a class="nav-link disabled" href="#" id="userName"> </a>
@@ -66,24 +63,22 @@
              
             </ul>
           </div>
-          <div class="card w-75" id="asd">
+          <div class="card w-75">
             <div class="card-body">
-              <h5 class="card-title">Add Products</h5>
+              <h5 class="card-title">Add/Remove Products</h5>
               
               <p class="card-text">
 
-                <input type="text" placeholder="Name" id="naam"/>
-                <input type="text" placeholder="Description" id="deescription"/>
-                <input type="text" placeholder="Start Bid" id="sttartbid"/>
-                <button class="btn btn-primary" onclick="mainApp.addData();">add item</button>
-                </p>
+                <input type="text" id="naam"/>
+                <input type="text" id="deescription"/>
+                <input type="text" id="sttartbid"/>
+                <button class="btn btn-primary" onclick="addddd(); mApp.addd();">add item</button>
+                <button class="btn btn-primary" onclick=" app.removePro()">remove item</button></p>
               
             </div>
           </div>
 
-                    
-          <button id="btnn" class="btn btn-primary" onclick="myFunction()">Add</button>
-          <!-- <button onclick="asd(2)">Show</button> -->
+          
 
 <!-- JS -->
         <script src="fireBase.js"></script>

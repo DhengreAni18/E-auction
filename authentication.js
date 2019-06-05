@@ -27,6 +27,25 @@ var init = function(){
     
 init();
 
+var add_data = function() {
+  var proref = firebase.database().ref('Products');
+  var productName = document.getElementById('naam');
+  var pro_desc = document.getElementById('deescription');
+  var start_Bid = document.getElementById('sttartbid');
+  var addpro = proref.push(
+    {
+      name: productName.value,
+      description: pro_desc.value,
+      startbid: start_Bid.value
+    }
+  
+  );
+    console.log(productName.value);
+    console.log(pro_desc);
+    console.log(start_Bid);
+
+  };
+  mainApp.addData = add_data;
 mainApp.logout = logtout;
 
 

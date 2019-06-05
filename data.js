@@ -7,11 +7,9 @@ var app ={};
       var query = firebase.database().ref("Products").orderByKey();
 query.on("child_added", function(snapshot) {
   
-    // key will be "ada" the first time and "alan" the second time
    var key = snapshot.key;
     var childData = snapshot.val();
-    // preObject.innerHTML = childData.name + '<span style="float: right"> <h6>Starting Bid</h6> <h6>Current Bid: </h6><a href="#">Bid Log</a></span>';
-    // console.log(JSON.stringify(childData.name));
+    
 
 console.log(key);
     var names = childData.name;
@@ -22,19 +20,21 @@ console.log(key);
       var ul = document.getElementById("pro2");
       var li = document.createElement('li');
       
+      
   }
-
-  // li.innerHTML = " <style></style>"
+  var link = '<a href="#" style="padding-right:40px;">Bid log</a>';
+  
+  li.innerHTML =  link;
   li.appendChild( document.createTextNode(name));
       ul.appendChild(li);
 
   
       
-    var bid = document.createTextNode(startbid);
-       li.appendChild(bid);
+    // var bid = document.createTextNode(startbid);
+    //    li.appendChild(bid);
         
-      var stbid = ul.appendChild(li);
-      // stbid.outerHTML= '<br></br>';
+      
+      
 });
 
 
@@ -47,6 +47,7 @@ console.log(key);
         // User is signed in.
         name = user.displayName;
         document.getElementById('userName').innerText = 'Welcome ' + name;
+        console.log(name);
       } else {
         // No user is signed in.
       }
