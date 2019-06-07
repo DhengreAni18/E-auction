@@ -1,7 +1,9 @@
 .card {
     width: auto;
-    margin-top: 100px;
+    margin-top: 30px;
     margin-left: 40px;
+    margin-right: 40px;
+
 }
 
 .card-header {
@@ -31,4 +33,19 @@
     margin-left: 40px;
     margin-top: 30px;
     
+}
+
+#parar {
+    display: none;
+}
+
+.book {
+    display: none;
+}
+
+.countdown {
+    text-align: right;
+    color: red;
+    margin-right: 50px;
+    margin-top: 30px;
 }

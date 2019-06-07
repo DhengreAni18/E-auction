@@ -11,35 +11,52 @@ query.on("child_added", function(snapshot) {
     var childData = snapshot.val();
     
 
-console.log(key);
+// console.log(key);
     var names = childData.name;
     var startbid = childData.startbid;
-
+    var desc = childData.description;
     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
       var name = names;
       var startbid = startbid;
       var ul = document.getElementById("pro2");
       var li = document.createElement('li');
-
-      
+      // var body = document.getElementById("bodyy");
+      var p = document.createElement('p');
   }
-  var link = '<a href="#" style="margin-right:80px;">Bid Log</a>';
-
  
-   li.innerHTML =  link ;
+ 
+  var bidlog = li.innerHTML =  '  <button type="button" class="btn btn-outline-primary" onclick="myFunction1()" style="float:right;">Details</button>  ' ;
+ 
   li.appendChild( document.createTextNode(name));
+  li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + startbid));
+  p.appendChild( document.createTextNode(desc));
+  p.id = "parar";
+  li.className = 'list-group-item';
+// p.appendChild(document.createTextNode(txtt));
       ul.appendChild(li);
-    
+      ul.appendChild(p);
 
-  
-    
-      
-    // var bid = document.createTextNode(startbid);
-    //    li.appendChild(bid);
-        
+      // body.appendChild(p);
+ 
       
       
 });
+
+        
+
+// var que = firebase.database().ref("Products").orderByKey();
+// que.once("value")
+//   .then(function(snapshot) {
+//     snapshot.forEach(function(childSnapshot) {
+//       var key = childSnapshot.key; // "ada"
+//       var body = document.getElementById('bodyy');
+//       body.innerText = key;
+//       // Cancel enumeration
+//       return true;
+//       // console.log(key);
+      
+//   });
+// });
 
 
     

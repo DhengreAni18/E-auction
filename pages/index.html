@@ -33,9 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
+                
                 <!-- <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
@@ -55,19 +53,45 @@
               </form>
             </div>
           </nav>
+
+          
+            
+              <div class="countdown"></div>
+          
+            
           
           <div class="card">
             <div class="card-header">
              Products
             </div>
+            
             <ul class="list-group list-group-flush" id="pro2" >
-              <div id="proo">
-
-              </div>
+              
               <!-- <li class="list-group-item"> <a href="#" id="pro2"></a> </li> -->
              
             </ul>
           </div>
+            <!-- Modal -->
+  <!-- <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog"> -->
+  
+        <!-- Modal content-->
+        <!-- <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="titlee"></h4>
+          </div>
+          <div class="modal-body" id="bodyy">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+  
+      </div>
+    </div> -->
+
           <div class="card w-75" id="asd">
             <div class="card-body">
               <h5 class="card-title">Add Products</h5>
@@ -77,6 +101,11 @@
                 <input type="text" placeholder="Name" id="naam"/>
                 <input type="text" placeholder="Description" id="deescription"/>
                 <input type="text" placeholder="Start Bid" id="sttartbid"/>
+                <input type="date" placeholder="Start Date" id="sttartbid"/>
+                <input type="time" placeholder="Start Time" id="sttartbid"/>
+                <input type="date" placeholder="End Date" id="sttartbid"/>
+                <input type="time" placeholder="End Time" id="sttartbid"/>
+
                 <button class="btn btn-primary" onclick="mainApp.addData();">add item</button>
                 </p>
               
@@ -85,6 +114,7 @@
 
                     
           <button id="btnn" class="btn btn-primary" onclick="myFunction()">Add</button>
+          <button  id = 'btnn' type="button" class="btn btn-outline-primary" onclick="myFunction1()">Details</button>
           <!-- <button onclick="asd(2)">Show</button> -->
 
 <!-- JS -->
