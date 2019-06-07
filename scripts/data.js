@@ -14,21 +14,25 @@ query.on("child_added", function(snapshot) {
 console.log(key);
     var names = childData.name;
     var startbid = childData.startbid;
+
     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
       var name = names;
       var startbid = startbid;
       var ul = document.getElementById("pro2");
       var li = document.createElement('li');
-      
+
       
   }
-  var link = '<a href="#" style="padding-right:40px;">Bid log</a>';
-  
-  li.innerHTML =  link;
+  var link = '<a href="#" style="margin-right:80px;">Bid Log</a>';
+
+ 
+   li.innerHTML =  link ;
   li.appendChild( document.createTextNode(name));
       ul.appendChild(li);
+    
 
   
+    
       
     // var bid = document.createTextNode(startbid);
     //    li.appendChild(bid);

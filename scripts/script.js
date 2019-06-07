@@ -1,3 +1,4 @@
+
 function addItem(){
 	var ul = document.getElementById("pro2");
   var name = document.getElementById("name");
@@ -43,4 +44,12 @@ function myFunction() {
 //       console.log("Remove Failed!"+error.message)
 //     });
 // }
+
+
+
+// var now = moment(new Date()); //todays date
+// var end = moment("2019-06-5"); // another date
+// var duration = moment.duration(now.diff(end));
+// var days = duration.asHours();
+// console.log(days)
 
