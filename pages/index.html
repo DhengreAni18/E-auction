@@ -56,7 +56,7 @@
 
           
             
-              <div class="countdown"></div>
+              <!-- <div class="countdown"></div> -->
           
             
           
@@ -92,19 +92,20 @@
       </div>
     </div> -->
 
-          <div class="card w-75" id="asd">
+          <div class="card w-90" id="asd">
             <div class="card-body">
               <h5 class="card-title">Add Products</h5>
               
               <p class="card-text">
 
-                <input type="text" placeholder="Name" id="naam"/>
-                <input type="text" placeholder="Description" id="deescription"/>
-                <input type="text" placeholder="Start Bid" id="sttartbid"/>
-                <input type="date" placeholder="Start Date" id="sttartbid"/>
-                <input type="time" placeholder="Start Time" id="sttartbid"/>
-                <input type="date" placeholder="End Date" id="sttartbid"/>
-                <input type="time" placeholder="End Time" id="sttartbid"/>
+                <input type="text" placeholder="Name" id="naam" required/>
+                <input type="text" placeholder="Quantity" id="quan" required/>
+                <input type="text" placeholder="Description" id="deescription" required/>
+                <input type="text" placeholder="Start Bid" id="sttartbid" required/> <br> <br>
+                Start Date & Time : <input type="date" placeholder="Start Date" id="StartDate" required/>
+                <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br>
+                End Date & Time : <input type="date" placeholder="End Date" id="EndDate" required/>
+                <input type="time" placeholder="End Time" id="EndTime" required/> <br> <br>
 
                 <button class="btn btn-primary" onclick="mainApp.addData();">add item</button>
                 </p>
@@ -113,7 +114,7 @@
           </div>
 
                     
-          <button id="btnn" class="btn btn-primary" onclick="myFunction()">Add</button>
+          <button id="btnn" class="btn btn-primary"  onclick="myFunction()">Add</button>
           <button  id = 'btnn' type="button" class="btn btn-outline-primary" onclick="myFunction1()">Details</button>
           <!-- <button onclick="asd(2)">Show</button> -->
 

@@ -29,12 +29,22 @@ init();
 
 var add_data = function() {
   var proref = firebase.database().ref('Products');
+  var quantity = document.getElementById('quan');
+  var startdate = document.getElementById('StartDate');
+  var starttime = document.getElementById('StartTime');
+  var enddate = document.getElementById('EndDate');
+  var endtime = document.getElementById('EndTime');
   var productName = document.getElementById('naam');
   var pro_desc = document.getElementById('deescription');
   var start_Bid = document.getElementById('sttartbid');
   var addpro = proref.push(
     {
       name: productName.value,
+      quantity: quantity.value,
+      sdate:startdate.value,
+      stime :starttime.value,
+      edate:enddate.value,
+      etime:endtime.value,
       description: pro_desc.value,
       startbid: start_Bid.value
     }
