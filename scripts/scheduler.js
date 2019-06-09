@@ -1,4 +1,4 @@
-var schedule = require('node-schedule');
+var http = require('http');
 var cron = require('node-cron');
  var moment = require("moment")
 var firebase = require('firebase');
@@ -18,103 +18,34 @@ if(!hasInit){
     hasInit = true;
 }
 
+var usersRef = firebase.database().ref('Products');
 
+cron.schedule('*/0,5 * * * * *', function () {
 
-
-
-
-
-cron.schedule(' * * * * * *', () => {
-  var query = firebase.database().ref("Products").orderByKey();
-query.on("child_added", function(snapshot) {
-  
-   var key = snapshot.key;
-    var childData = snapshot.val();
+    var query = firebase.database().ref("Products").orderByKey();
     
-
-
-
-
-    for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
-      
-     
-      var startDate = childData.sdate;
-      var startTime = childData.stime ;
-      var endDate = childData.edate;
-      var endTime = childData.etime ;
-  
-      
-      // console.log(startDate);
-      
-      
-      var ts = moment( startDate, "YYYY/MM/DD H:mm").unix();
-      var ts1 = moment(endDate , "YYYY/MM/DD H:mm").unix();
-      var eventTime= ts1; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
-      var currentTime = ts; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
-      var diffTime = eventTime - currentTime;
-      var duration = moment.duration(diffTime*1000, 'milliseconds');
-      var interval = 1000;
-      var CurrDate = moment().format('YYYY-MM-DD');
-      // var CurrTime = moment().local().format('HH:mm:ss');
-
-    
-    
-    
-
-
-  
-
-      setInterval(function(){
+    query.on('value',function(snap) {
         
-
-       
+        snap.forEach(function(item) {
         
-        
-        duration = moment.duration(duration - interval, 'milliseconds');
-         
-                  var usersRef = firebase.database().ref('Products');
-                  var remainT =  duration.hours()+':'+duration.minutes() + ':' + duration.seconds();
-                  
-                  
+           var current_item = item.val();
 
-                  usersRef.on('child_added', function(snapshot) {
-                    var id = snapshot.key;
-                    var childData = snapshot.val();
+            var startDate = current_item.sdate;
+            var endDate = current_item.edate;
 
-                    
-    
-                      var hopperRef = usersRef.child(id);
-                        hopperRef.update({
-                          "rtime": remainT
-                        });
-                      
-                  });
-                  
-                 
-                  
-               
+            var start_ts = moment( moment(), "YYYY/MM/DD H:mm:ss");
+            var end_ts = moment(endDate , "YYYY/MM/DD H:mm:ss");
 
-        }, interval);
-      
+            var duration = moment.duration(end_ts.diff(start_ts));
 
-            
-                
-      
-      
-  }
+            var remainT = moment.utc(duration.as('milliseconds')).format("DD:HH:mm:ss")
 
+            var hopperRef = usersRef.child(item.key);
+            hopperRef.update({
+              "rtime": remainT
+            });
 
+        });
 
- 
-      
-
-  
-
-
-            
+     });
 });
-});
-
-
-
-
