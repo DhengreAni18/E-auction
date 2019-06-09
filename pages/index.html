@@ -54,11 +54,26 @@
             </div>
           </nav>
 
-          
+          <!-- <div class="card w-20">
+            <div class="card-body">
+              <h5 class="card-title">Add Time for auction</h5>
+              
+              <p class="card-text">
+
+               
+                Start Date & Time : <input type="date" placeholder="Start Date" id="StartDate" required/>
+                <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br>
+                End Date & Time : <input type="date" placeholder="End Date" id="EndDate" required/>
+                <input type="time" placeholder="End Time" id="EndTime" required/> <br> <br>
+
+                <button class="btn btn-primary" onclick="mainApp.update();">add time</button>
+                </p>
+              
+            </div>
+          </div> -->
             
               <!-- <div class="countdown"></div> -->
           
-            
           
           <div class="card">
             <div class="card-header">
@@ -102,10 +117,10 @@
                 <input type="text" placeholder="Quantity" id="quan" required/>
                 <input type="text" placeholder="Description" id="deescription" required/>
                 <input type="text" placeholder="Start Bid" id="sttartbid" required/> <br> <br>
-                Start Date & Time : <input type="date" placeholder="Start Date" id="StartDate" required/>
-                <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br>
-                End Date & Time : <input type="date" placeholder="End Date" id="EndDate" required/>
-                <input type="time" placeholder="End Time" id="EndTime" required/> <br> <br>
+                Start Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="sdatetime" required/>
+                <!-- <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br> -->
+                End Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="edatetime" required/>
+                <br> <br>
 
                 <button class="btn btn-primary" onclick="mainApp.addData();">add item</button>
                 </p>
@@ -122,7 +137,7 @@
         <script src="/scripts/fireBase.js"></script>
         <script src="/scripts/authentication.js"></script>
         <script src="/scripts/data.js"></script>
-        <script src="/scripts/data1.js"></script>
+        <script src="/scripts/scheduler.js"></script>
         <script src="/scripts/script.js"></script>
     </body>
 </html>

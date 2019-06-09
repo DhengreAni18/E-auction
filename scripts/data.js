@@ -1,7 +1,10 @@
 var app ={};
 
+
+   
 (function(){
 
+  
         const preObject = document.getElementById('pro2');
 
       var query = firebase.database().ref("Products").orderByKey();
@@ -11,14 +14,10 @@ query.on("child_added", function(snapshot) {
     var childData = snapshot.val();
     
 
-// console.log(key);
+console.log(key);
     var names = childData.name;
     var startbid = childData.startbid;
     var desc = childData.description;
-    var SDate = childData.sdate;
-    var STime = childData.stime;
-    var EDate = childData.edate;
-    var ETime = childData.etime;
     var qua = childData.quantity;
 
 
@@ -29,12 +28,13 @@ query.on("child_added", function(snapshot) {
       var li = document.createElement('li');
       // var body = document.getElementById("bodyy");
       var p = document.createElement('p');
+      var key = key;
   }
 
 
 
  
-    li.innerHTML = '<div class="countdown"></div>' + '  <button type="button" class="btn btn-outline-primary" onclick="myFunction1()" style="float:right;">Details</button>  ' ;
+    li.innerHTML =    '  <button type="button" class="btn btn-outline-primary" onclick="myFunction1()" style="float:right;">Details</button>  ' ;
       
 
   li.appendChild( document.createTextNode(name));
@@ -49,38 +49,112 @@ query.on("child_added", function(snapshot) {
       ul.appendChild(p);
 
       // body.appendChild(p);
- 
-                
-          var startDate =SDate;
-          var startTime =STime ;
-          var endDate = EDate;
-          var endTime =ETime ;
-          
-          
-          var ts = moment( startDate + startTime, "YYYY/MM/DD H:mm").unix();
-          var ts1 = moment(endDate + endTime, "YYYY/MM/DD H:mm").unix();
-          var eventTime= ts1; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
-          var currentTime = ts; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
-          var diffTime = eventTime - currentTime;
-          var duration = moment.duration(diffTime*1000, 'milliseconds');
-          var interval = 1000;
 
-          setInterval(function(){
-            if(duration == 0) {
-            return;
-            }
-            else {
-            duration = moment.duration(duration - interval, 'milliseconds');
-              $('.countdown').text("Time Remaining : "+duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
-              // console.log( duration.hours()+':'+duration.minutes() + ':' + duration.seconds());
+      var startDate = childData.sdate;
+      var startTime = childData.stime ;
+      var endDate = childData.edate;
+      var endTime = childData.etime ;
+  
+      
+      console.log(startDate);
+      
+      
+      var ts = moment( startDate, "YYYY/MM/DD H:mm").unix();
+      var ts1 = moment(endDate , "YYYY/MM/DD H:mm").unix();
+      var eventTime= ts1; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
+      var currentTime = ts; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
+      var diffTime = eventTime - currentTime;
+      var duration = moment.duration(diffTime*1000, 'milliseconds');
+      var interval = 1000;
+      var CurrDate = moment().format('YYYY-MM-DD');
+      // var CurrTime = moment().local().format('HH:mm:ss');
 
-                      // var proref = firebase.database().ref('Products');
-                      var remainT =  duration.hours()+':'+duration.minutes() + ':' + duration.seconds()
-                      console.log(remainT);
+    
+    
+    var currtime;
+    (currtime = function() {
+         moment().format(' h:mm:ss');
+    })();
+    setInterval(currtime, 1000);
+
+
+  //   for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
+  //     var startDate =SDate;
+  //     var startTime =STime ;
+  //     var endDate = EDate;
+  //     var endTime =ETime ;
+  // }
+
+      setInterval(function(){
+        if(duration == 0) {
+          console.log('aa');
+          
+        return;
+        }
+
+        // else if (CurrDate !== startDate) {
+        //   console.log('bb');
+          
+        //   return;
+          
+        // }
+
+
+        // else if(currtime >= endTime) {
+        //     console.log(currtime);
+        //     document.getElementById('zz').innerText = 'Over';
+        // return;
+        // }
+        
+        else {
+        duration = moment.duration(duration - interval, 'milliseconds');
+          $('.countdown').text("Time Remaining : "+duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
+          // console.log( duration.hours()+':'+duration.minutes() + ':' + duration.seconds());
+          
+                  var usersRef = firebase.database().ref('Products');
+                  var remainT =  duration.hours()+':'+duration.minutes() + ':' + duration.seconds();
+                  // console.log(remainT);
+                  // console.log(currtime);
+                  // console.log(endTime);
+                  
+
+                  usersRef.on('child_added', function(snapshot) {
+                    var id = snapshot.key;
+                    var childData = snapshot.val();
+
+                    // var RTime = childData.rtime;
+                      // console.log(id);
                       
-                   
+                        
+                          // var aa = moment(RTime).subtract(1, 'seconds').format('h:mm:ss');
+                        //  console.log(aa);
+                        //  console.log(RTime);
+                         
+                         
+                        
+                      
 
-            }}, interval);
+                      var hopperRef = usersRef.child(id);
+                        hopperRef.update({
+                          "rtime": remainT
+                        });
+                      
+                  });
+                  
+                 
+                  
+               
+
+        }}, interval);
+      // var query = firebase.database().ref("Time").orderByKey();
+      // query.on("value", function(snapshot) {
+        
+      //    var key = snapshot.key;
+      //     var childData = snapshot.val();
+          
+
+                
+      //    });
 
             
                 

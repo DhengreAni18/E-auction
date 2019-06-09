@@ -44,10 +44,6 @@
 }
 
 .countdown {
-    text-align: center;
-    color: red;
-    margin-right: 50px;
-    /* margin-top: 30px; */
-    font-size: 20px;
-    display: inline;
+   display: inline;
+   color: red;
 }
