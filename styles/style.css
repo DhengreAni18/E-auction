@@ -31,6 +31,24 @@
     list-style: none;
 }
 
+
+/* 
+
+
+   5 columns grid for 'md' and 'lg' screens
+
+   @tatygrassini
+
+
+*/
+
+#tablee {
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border: 1px solid black;
+}
+ 
 /* #pro2 li {
     font-size: 20px;
     list-style: none;
