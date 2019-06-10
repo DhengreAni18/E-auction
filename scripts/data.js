@@ -31,25 +31,13 @@ console.log(key);
 
  
   li.appendChild( document.createTextNode(name));
-  // li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
-  // li.appendChild( document.createTextNode(id));
-  // $('li.list-group-item').append('<div>aaa</div>');
+ 
 
 
   li.className = 'list-group-item';
       ul.appendChild(li);
   
 
-// moment(date+' '+time,'DD/MM/YYYY HH:mm').format('MM.DD.YYYY'); 
-// var update = function() {
-//   // document.getElementById("datetime")
-//   li.appendChild = moment(remainTime,'HH:mm:ss').subtract(1, 'seconds').format(' HH:mm:ss ');
-//   // console.log(ttime);
-
-// }
-// setInterval(update, 1000);
-
-console.log(admin.database.ServerValue.TIMESTAMP);
 
       
             
