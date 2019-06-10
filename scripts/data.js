@@ -17,8 +17,8 @@ query.on("child_added", function(snapshot) {
 console.log(key);
     var names = childData.name;
     var startbid = childData.startbid;
-    var desc = childData.description;
     var qua = childData.quantity;
+    var id = childData.id;
 
 
     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
@@ -26,162 +26,165 @@ console.log(key);
       var startbid = startbid;
       var ul = document.getElementById("pro2");
       var li = document.createElement('li');
-      // var body = document.getElementById("bodyy");
-      var p = document.createElement('p');
       var key = key;
   }
 
-
-
  
-    li.innerHTML =    '  <button type="button" class="btn btn-outline-primary" onclick="myFunction1()" style="float:right;">Details</button>  ' ;
-      
-
   li.appendChild( document.createTextNode(name));
-  li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
-  
-  p.appendChild( document.createTextNode(desc));
+  // li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
+  // li.appendChild( document.createTextNode(id));
+  // $('li.list-group-item').append('<div>aaa</div>');
 
-  p.id = "parar";
+
   li.className = 'list-group-item';
-// p.appendChild(document.createTextNode(txtt));
       ul.appendChild(li);
-      ul.appendChild(p);
-
-      // body.appendChild(p);
-
-      var startDate = childData.sdate;
-      var startTime = childData.stime ;
-      var endDate = childData.edate;
-      var endTime = childData.etime ;
   
+
+// moment(date+' '+time,'DD/MM/YYYY HH:mm').format('MM.DD.YYYY'); 
+// var update = function() {
+//   // document.getElementById("datetime")
+//   li.appendChild = moment(remainTime,'HH:mm:ss').subtract(1, 'seconds').format(' HH:mm:ss ');
+//   // console.log(ttime);
+
+// }
+// setInterval(update, 1000);
+
+console.log(admin.database.ServerValue.TIMESTAMP);
+
       
-      console.log(startDate);
-      
-      
-      var ts = moment( startDate, "YYYY/MM/DD H:mm").unix();
-      var ts1 = moment(endDate , "YYYY/MM/DD H:mm").unix();
-      var eventTime= ts1; // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
-      var currentTime = ts; // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
-      var diffTime = eventTime - currentTime;
-      var duration = moment.duration(diffTime*1000, 'milliseconds');
-      var interval = 1000;
-      var CurrDate = moment().format('YYYY-MM-DD');
-      // var CurrTime = moment().local().format('HH:mm:ss');
-
-    
-    
-    var currtime;
-    (currtime = function() {
-         moment().format(' h:mm:ss');
-    })();
-    setInterval(currtime, 1000);
-
-
-  //   for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
-  //     var startDate =SDate;
-  //     var startTime =STime ;
-  //     var endDate = EDate;
-  //     var endTime =ETime ;
-  // }
-
-      setInterval(function(){
-        if(duration == 0) {
-          console.log('aa');
-          
-        return;
-        }
-
-        // else if (CurrDate !== startDate) {
-        //   console.log('bb');
-          
-        //   return;
-          
-        // }
-
-
-        // else if(currtime >= endTime) {
-        //     console.log(currtime);
-        //     document.getElementById('zz').innerText = 'Over';
-        // return;
-        // }
-        
-        else {
-        duration = moment.duration(duration - interval, 'milliseconds');
-          $('.countdown').text("Time Remaining : "+duration.hours() + ":" + duration.minutes() + ":" + duration.seconds())
-          // console.log( duration.hours()+':'+duration.minutes() + ':' + duration.seconds());
-          
-                  var usersRef = firebase.database().ref('Products');
-                  var remainT =  duration.hours()+':'+duration.minutes() + ':' + duration.seconds();
-                  // console.log(remainT);
-                  // console.log(currtime);
-                  // console.log(endTime);
-                  
-
-                  usersRef.on('child_added', function(snapshot) {
-                    var id = snapshot.key;
-                    var childData = snapshot.val();
-
-                    // var RTime = childData.rtime;
-                      // console.log(id);
-                      
-                        
-                          // var aa = moment(RTime).subtract(1, 'seconds').format('h:mm:ss');
-                        //  console.log(aa);
-                        //  console.log(RTime);
-                         
-                         
-                        
-                      
-
-                      var hopperRef = usersRef.child(id);
-                        hopperRef.update({
-                          "rtime": remainT
-                        });
-                      
-                  });
-                  
-                 
-                  
-               
-
-        }}, interval);
-      // var query = firebase.database().ref("Time").orderByKey();
-      // query.on("value", function(snapshot) {
-        
-      //    var key = snapshot.key;
-      //     var childData = snapshot.val();
-          
-
-                
-      //    });
-
-            
-                
-
             
 });
 
-        
-
-
-// var que = firebase.database().ref("Products").orderByKey();
-// que.once("value")
-//   .then(function(snapshot) {
-//     snapshot.forEach(function(childSnapshot) {
-//       var key = childSnapshot.key; // "ada"
-//       var body = document.getElementById('bodyy');
-//       body.innerText = key;
-//       // Cancel enumeration
-//       return true;
-//       // console.log(key);
-      
-//   });
-// });
-
-
+var daata = firebase.database().ref("Products").orderByKey();
+daata.on("child_added", function(snapshot) {
+  
+   var key = snapshot.key;
+    var childData = snapshot.val();
     
+
+console.log(key);
+    var names = childData.name;
+    var startbid = childData.startbid;
+    var qua = childData.quantity;
+    var RemTime = childData.rtime;
+
+
+    for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
+      var name = names;
+      var startbid = startbid;
+      var rTime = RemTime;
+      var ul = document.getElementById("time");
+      var li = document.createElement('li');
+      var key = key;
+  }
+
+ 
+  // li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
+  // li.appendChild( document.createTextNode(id));
+  // $('li.list-group-item').append('<div>aaa</div>');
+
+
+  li.className = 'list-group-item';
+      ul.appendChild(li);
+  
+
+// moment(date+' '+time,'DD/MM/YYYY HH:mm').format('MM.DD.YYYY'); 
+var update = function() {
+  // document.getElementById("datetime")
+  var b = document.createTextNode(rTime);
+  // console.log(ttime);
+
+}
+var b = document.createTextNode(rTime);
+
+setInterval(update, 1000);
+li.appendChild(b);
       
+            
+});
+
+// var query = firebase.database().ref("Products").orderByKey();
+// query.on("child_changed", function(snapshot) {
+  
+// //    var key = snapshot.key;
+//     var childData = snapshot.val();
+    
+
+//     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
+//       // var name = names;
+//       // var startbid = startbid;
+//       var ul = document.getElementById("time");
+//       var li = document.createElement('li');
+//       // var key = key;
+//   }
+
+ 
+//   // li.append( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
+//   // li.appendChild( document.createTextNode(id));
+//   // $('li.list-group-item').append('<div>aaa</div>');
+
+//   var remainTime = childData.rtime;
+//   var ttime = remainTime.slice(3 , 11);
+//   li.className = 'list-group-item';
+//       // ul.appendChild(li);
+//       console.log(ttime);
+      
+//       li.appendChild( document.createTextNode(ttime));
+
+// // console.log('change');
+// // var update = function() {
+// //   var remainTime = childData.rtime;
+// // var ttime = remainTime.slice(3 , 11);
+// // li.appendChild( document.createTextNode(ttime));
+
+// //   // document.getElementById("datetime")    // console.log(ttime);
+// //   // li.innerHTML= moment(ttime,'HH:mm:ss').subtract(1, 'seconds').format(' HH:mm:ss ');
+// // // li.appendChild(ttime);
+
+// // }
+
+
+// // setInterval(update, 1000);
+
+// // // // console.log(key);
+// // //     var names = childData.name;
+// // //     var startbid = childData.startbid;
+// //     var desc = childData.rtime;
+// // //     var qua = childData.quantity;
+// // // console.log(desc);
+
+
+// //     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
+// //       // var name = names;
+// //       // var startbid = startbid;
+// //       var ul = document.getElementById("pro2");
+// //       var li = document.createElement('li');
+// //       // var key = key;
+// //   }
+
+// //   var dateString = moment.unix(300000).format("HH:mm:ss");
+// // console.log(dateString);
+
+// //   // li.appendChild( document.createTextNode(desc));
+// // //   li.remove( document.createTextNode( ' ' + ' ' +' ' +' -'+' ' + qua));
+// // // var rrr = desc.subtract(5, 'seconds').format('HH:mm:ss');
+
+// // // console.log(rrr);
+
+// //   // li.className = 'list-group-item';
+// //       // ul.appendChild(li);
+  
+
+// //       function print() {
+// //       console.log(desc);
+// //       setTimeout(print, 1000);
+
+// //       }
+
+      
+            
+// });
+   
      
       var user = firebase.auth().currentUser;
     firebase.auth().onAuthStateChanged(function(user) {
@@ -199,27 +202,6 @@ console.log(key);
 
     
 
-    // var proref = firebase.database().ref('Products');
     
-    // var addpro = proref.push(
-    //   {
-    //     name: document.getElementById('naame'),
-    //     description: document.getElementById('deescription'),
-    //     startbid: document.getElementById('sttartbid')
-        
-    //   }
-    // );
-    
-    // var removePro = 'macbook pro';
-    //   proref.orderByChild('name').equalTo(removePro)
-    //       .once('value').then(function(snapshot) {
-    //           snapshot.forEach(function(childSnapshot) {
-    //           //remove each child
-    //           proref.child(childSnapshot.key).remove();
-    //       });
-    //   });
-
-      
-
     
 }());

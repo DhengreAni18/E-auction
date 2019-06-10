@@ -1,8 +1,9 @@
 .card {
-    width: auto;
+    /* width: auto; */
     margin-top: 100px;
     margin-left: 40px;
     margin-right: 40px;
+    /* display: inline; */
 
 }
 
@@ -25,6 +26,21 @@
     list-style: none;
 }
 
+#time li {
+    font-size: 20px;
+    list-style: none;
+}
+
+/* #pro2 li {
+    font-size: 20px;
+    list-style: none;
+}
+
+#pro2 li {
+    font-size: 20px;
+    list-style: none;
+} */
+
 #asd {
     display: none;
 }
@@ -46,4 +62,5 @@
 .countdown {
    display: inline;
    color: red;
+   
 }

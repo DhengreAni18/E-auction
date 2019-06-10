@@ -6,7 +6,7 @@ var mainContainer = document.getElementById("main_container");
     var logtout =  function(){
         firebase.auth().signOut().then(function(){
             console.log('success');
-            window.location.replace("login.html");
+            window.location.replace("../index.html");
         },function(){})
     }
 
@@ -31,9 +31,9 @@ var add_data = function() {
   var proref = firebase.database().ref('Products');
   var quantity = document.getElementById('quan');
   var startdate = document.getElementById('sdatetime');
-    // var starttime = document.getElementById('StartTime');
+    var proID = document.getElementById('proid');
     var enddate = document.getElementById('edatetime');
-    // var endtime = document.getElementById('EndTime');
+    // var currBid = document.getElementById('currBid');
   var productName = document.getElementById('naam');
   var pro_desc = document.getElementById('deescription');
   var start_Bid = document.getElementById('sttartbid');
@@ -42,9 +42,9 @@ var add_data = function() {
       name: productName.value,
       quantity: quantity.value,
       sdate:startdate.value,
-      // stime :starttime.value,
+      id :proID.value,
       edate:enddate.value,
-      // etime:endtime.value,
+      currbid:'',
       description: pro_desc.value,
       startbid: start_Bid.value
     }
@@ -60,29 +60,10 @@ var add_data = function() {
 
   
 
-  // var update = function() {
-  //   var usersRef = firebase.database().ref();
-
-  //   var dataref = usersRef.child("Time")
-  //   var startdate = document.getElementById('StartDate');
-  //   var starttime = document.getElementById('StartTime');
-  //   var enddate = document.getElementById('EndDate');
-  //   var endtime = document.getElementById('EndTime');
-    
-    
-                      
-  //   dataref.set({
-  //     sdate:startdate.value,
-  //     stime :starttime.value,
-  //     edate:enddate.value,
-  //     etime:endtime.value,
-  //   });
-
-  // }
+  
 
 
 
-  // mainApp.update = update;
   mainApp.addData = add_data;
 mainApp.logout = logtout;
 

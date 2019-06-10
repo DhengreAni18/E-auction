@@ -34,16 +34,7 @@
               <ul class="navbar-nav mr-auto">
                 
                 
-                <!-- <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div> -->
+                
                 </li>
                 
               </ul>
@@ -54,58 +45,57 @@
             </div>
           </nav>
 
-          <!-- <div class="card w-20">
-            <div class="card-body">
-              <h5 class="card-title">Add Time for auction</h5>
-              
-              <p class="card-text">
-
+         
+            
+              <div id="datetime"></div>
+          
+          <div class="row">
+              <div class=" card col-sm">
+                  <div class="card-header">
+                    Products
+                  </div>
+                  <ul class="list-group list-group-flush" id="pro2" >
+                    
+                   
+                  </ul>
+                </div>
+      
+                <div class="card col-sm">
+                    <div class="card-header">
+                      Time Remaining
+                    </div>
+                    <ul class="list-group list-group-flush" id="time" >
+                      
+                     
+                    </ul>
+                  </div>
                
-                Start Date & Time : <input type="date" placeholder="Start Date" id="StartDate" required/>
-                <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br>
-                End Date & Time : <input type="date" placeholder="End Date" id="EndDate" required/>
-                <input type="time" placeholder="End Time" id="EndTime" required/> <br> <br>
+                  
+                  <div class="card col-sm">
+                      <div class="card-header">
+                        Current Bid
+                      </div>
+                      <!-- <ul class="list-group list-group-flush" id="pro2" >
+                        
+                       
+                      </ul> -->
+                    </div>
+               
+                    
+                    <div class=" card col-sm">
+                        <div class="card-header">
+                          head
+                        </div>
+                        <!-- <ul class="list-group list-group-flush" id="pro2" >
+                          
+                         
+                        </ul> -->
+                      </div>
+                     
 
-                <button class="btn btn-primary" onclick="mainApp.update();">add time</button>
-                </p>
-              
-            </div>
-          </div> -->
-            
-              <!-- <div class="countdown"></div> -->
+          </div>
           
-          
-          <div class="card">
-            <div class="card-header">
-             Products
-            </div>
-            
-            <ul class="list-group list-group-flush" id="pro2" >
-              
-              <!-- <li class="list-group-item"> <a href="#" id="pro2"></a> </li> -->
-             
-            </ul>
-          </div>
-            <!-- Modal -->
-  <!-- <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog"> -->
-  
-        <!-- Modal content-->
-        <!-- <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" id="titlee"></h4>
-          </div>
-          <div class="modal-body" id="bodyy">
-            
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-  
-      </div>
-    </div> -->
+         
 
           <div class="card w-90" id="asd">
             <div class="card-body">
@@ -113,12 +103,12 @@
               
               <p class="card-text">
 
-                <input type="text" placeholder="Name" id="naam" required/>
+                  <input type="text" placeholder="Product ID" id="proid" required/>
+               <input type="text" placeholder="Name" id="naam" required/>
                 <input type="text" placeholder="Quantity" id="quan" required/>
                 <input type="text" placeholder="Description" id="deescription" required/>
                 <input type="text" placeholder="Start Bid" id="sttartbid" required/> <br> <br>
                 Start Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="sdatetime" required/>
-                <!-- <input type="time" placeholder="Start Time" id="StartTime" required/> <br> <br> -->
                 End Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="edatetime" required/>
                 <br> <br>
 
@@ -130,9 +120,7 @@
 
                     
           <button id="btnn" class="btn btn-primary"  onclick="myFunction()">Add</button>
-          <button  id = 'btnn' type="button" class="btn btn-outline-primary" onclick="myFunction1()">Details</button>
-          <!-- <button onclick="asd(2)">Show</button> -->
-
+          
 <!-- JS -->
         <script src="/scripts/fireBase.js"></script>
         <script src="/scripts/authentication.js"></script>

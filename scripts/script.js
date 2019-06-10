@@ -18,21 +18,7 @@ function removeItem(){
 
 
 
-// function asd(a)
-// {
-//     if(a==0)
-//     document.getElementById("asd").style.display="none";
-//     else
-//     document.getElementById("asd").style.display="block";
-// }
 
-// function parar(a)
-// {
-//     if(a==0)
-//     document.getElementById("parar").style.display="none";
-//     else
-//     document.getElementById("parar").style.display="block";
-// }
 
 function myFunction() {
   var x = document.getElementById("asd");
@@ -55,34 +41,8 @@ function myFunction1() {
 }
 
 
-$( ".button-success" ).click(function() {
-  $(this).next(".book").slideToggle( "slow", function() {
-  // Animation complete.
-});
-});
+
 
 
 
   
-
-
-
-// function Delete(key,uid){
-//     var feedRef = firebase.database.ref("Products").child(uid).child(key);
-//     feedRef.remove()
-//     .then(function(){
-//       console.log("Remove succeeded.")
-//     })
-//     .catch(function(error){
-//       console.log("Remove Failed!"+error.message)
-//     });
-// }
-
-
-
-// var now = moment(new Date()); //todays date
-// var end = moment("2019-06-5"); // another date
-// var duration = moment.duration(now.diff(end));
-// var days = duration.asHours();
-// console.log(days)
-

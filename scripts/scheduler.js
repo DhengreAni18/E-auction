@@ -40,6 +40,8 @@ cron.schedule('*/0,5 * * * * *', function () {
 
             var remainT = moment.utc(duration.as('milliseconds')).format("DD:HH:mm:ss")
 
+            console.log(remainT);
+            
             var hopperRef = usersRef.child(item.key);
             hopperRef.update({
               "rtime": remainT
