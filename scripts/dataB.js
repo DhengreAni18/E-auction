@@ -152,7 +152,8 @@ queery.once("value").then(function(snapshot) {
         uidd = user.uid;
     
         var userData = firebase.database().ref('users/' + uidd+ '/'   );
-    
+        var ProData = firebase.database().ref('Products').orderByChild('pcode').equalTo(Pcode);
+
           var currentDateandTime = moment().format('YYYY MM DD , hh:mm:ss');
     // var id = document.getElementById('prodid');
     // var bid = document.getElementById('bidd');
@@ -167,7 +168,12 @@ queery.once("value").then(function(snapshot) {
       }
     );
     
-    
+    ProData.on("value", function(snapshot) {
+      console.log(snapshot.val());
+      snapshot.forEach(function(data) {
+          console.log(data.key);
+      });
+  });
     
     
     // location.reload();

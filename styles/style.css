@@ -43,12 +43,38 @@
 */
 
 #tablee {
-    margin-top: 100px;
+    margin-top: 153px;
+    /* float:left; */
+    display:inline-block;
+    width: -moz-calc(100% - 100px);
+    width: -webkit-calc(100% - 100px);
+    width: calc(100% - 100px);
+    height: 100%;
     margin-left: 50px;
-    margin-right: 50px;
-    border: 1px solid black;
+    /* padding-left: 50px; */
+    /* border: 1px solid black; */
 }
  
+#auctions {
+    margin-top: 175px;
+
+    float:left;
+    display:inline-block;
+    width: 100px;
+    height: 100%;
+    /* padding-bottom: 10px; */
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+#auctions li {
+    margin:10px 0 30px 0;
+
+}
+
+
+
+
 /* #pro2 li {
     font-size: 20px;
     list-style: none;

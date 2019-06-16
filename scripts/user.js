@@ -1,4 +1,4 @@
-var mainApp = {};
+var myApp = {};
 (function(){
 
   var addUserData = function() {
@@ -64,7 +64,7 @@ var mainApp = {};
   };
   
     
-mainApp.addUser = addUserData;
+myApp.addUser = addUserData;
 
 
 })();

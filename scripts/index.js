@@ -1,4 +1,5 @@
 var fireBase = require('./Sfirebase');
+// var auth = require('firebase/auth');
 var SERVER_PORT = 9090;
 var moment = require("moment");
 var express = require('express');
@@ -20,6 +21,8 @@ io.on('connect', (socket) => {
 
         socket.on('getAuctions', (data) => {
 
+
+
                         var usersRef = fireBase.fireBaseConnection.database().ref('Products').orderByChild("edate");
                 
                         var data = {};
@@ -38,8 +41,52 @@ io.on('connect', (socket) => {
 
                                 console.log(data);
 
+                               
+
                                 socket.emit('auctionData',data);
 
                         });
+
+
+                        
+                       
+
+                        data.UsersData = [];
+
+                        // user = fireBase.fireBaseConnection.auth();
+                        // console.log(user);
+                       
+                //         var fun1 = function() {  fireBase.fireBaseConnection.auth().onAuthStateChanged(function(user) {
+
+                                
+                                
+                //                 if(user) {
+                //                         name = user.displayName;
+                //                         // data.UsersData.push(name);
+                //                         data.UsersData.push(user);
+                //                         console.log('asd');
+                                        
+                               
+                                
+                                        
+                //                 }
+
+                                
+
+                //                 socket.emit('UserData',user);
+
+                //         });
+
+                // }
+
+                // fun1();
+                        
+                        // var daata = fireBase.fireBaseConnection.database().ref("Products").orderByKey();
+                        // daata.on("child_changed", function(snapshot) {
+                        //         console.log(data);
+                                
+
+
+                        // });
                 });
 });

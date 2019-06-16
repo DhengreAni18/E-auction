@@ -1,3 +1,6 @@
+// import moment = require("moment");
+var timer = require('./timer.js');
+
 var app ={};
 
 (function(){
@@ -53,6 +56,8 @@ var app ={};
             
 // });
 
+
+
 var fragment = document.createDocumentFragment();
 var table = document.createElement("table");
 table.id = 'proTable';
@@ -65,9 +70,11 @@ query.once("value").then(function(snapshot) {
     var value = childSnapshot.val();
     var key = childSnapshot.key;
 
-    var trValues = [key,value.name,value.startbid,value.currbid];
-
+    var trValues = [timer.remainT,value.name,value.startbid,value.currbid];
+    // console.log(firebase.database.ServerValue.TIMESTAMP  );
     
+    
+   
 
     for (var i = 0; i < trValues.length; i++) {
       var td1 = document.createElement("td");
@@ -81,100 +88,67 @@ query.once("value").then(function(snapshot) {
       td1.innerHTML =  trValues[i] ;
       tr.appendChild(td1);
       // console.log(this.find( 1).text());
-     
-     
-      
-      
     }
 // onclick="alert(this.parentNode.parentNode.rowIndex)"
-// $('#placebidd').on('c')
-// alert( $(this).find('td:first').text());
+
     tr.appendChild(td2);
-    // console.log(document.getElementById("proTable").rows.value);
     $(' table td:nth-child(2)').addClass('proname');
 
     table.appendChild(tr);
     table.className = 'table table-striped';
   
-
     $(".btn-primary").on('click' , (function() {
       var $row = $(this).closest("tr");    // Find the row
       var $text = $row.find("#ex2").val(); // Find the text
-      var $name = $row.find(".proname").text(); // Find the text
+      var $name = $row.find(".proname").text(); // Find the product name
 
       // Let's test it out
-      alert($text);
-      alert($name);
-  }))
-    // placebidd.onclick = getId(this);
-    
-//     $('#proTable').on('click', 'tr', function() {
-//       //  console.log( $(this).find('td:first').text());
+      // alert($text);
+      // alert($name);
+alert($row)      ;
+
+      var user = firebase.auth().currentUser;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log($text);
+        console.log(value.startbid);
         
-// // console.log(key);
+        
+        if($text < value.startbid) {
+      alert('Enter Bid Greater than startBid')
+        }
 
-//        var usersRef = firebase.database().ref('Products');
+        else {
+        name = user.displayName;
+        uidd = user.uid;
 
-//        var query = firebase.database().ref("Products").orderByChild('key').equalTo($(this).find('td:first').text());
-    
-//     query.on('value',function(snap) {
-//       console.log(key);
-//       console.log($(this).find('td:first').text());
+        var userData = firebase.database().ref('users/' + uidd+ '/' +$name );
+    var proData = firebase.database().ref('Products');
+
+          var currentDateandTime = moment().format('YYYY MM DD , hh:mm:ss');
+    // var id = document.getElementById('prodid');
+    // var bid = document.getElementById('bidd');
+     
+    var addUser = userData.update(
+      {
+        BidTime: currentDateandTime,
+        Bid: $text,
+      }
+    );
+
+        console.log(name);
+        console.log(uidd);
+        }
+      } 
+    });
       
-//         snap.forEach(function(item) {
-//         console.log(key);
-        
-//            var current_item = item.val();
-
-//             console.log(current_item);
-            
-            
-//             // var hopperRef = usersRef.child(item.key);
-//             // hopperRef.update({
-//             //   "rtime": remainT
-//             // });
-
-//         });
-
-//      });
-//   });
-  });
-
-  // $('#placebidd').on('click', function () {                
-  
-  //   var tbl = document.getElementById(proTable);
-  //   // alert($(this).closest('tr')[0].sectionRowIndex);
-  //   // console.log();
+  }))
     
-  //   alert($(this).closest('tr').find('#ex2').val());
-  
-  //   // var rCount = tbl.parentNode.parentNode.rows.length;
-   
-  // });
+       
+  });
 });
 
-
-// var table = document.getElementById("proTable");
- 
-//       for (var i = 0 ; i < table.rows.length; i++) {
-
-//           var row = "";
-
-//           for (var j = 0; j < table.rows[i].cells.length; j++) {
-
-//               row += table.rows[i].cells[j].innerHTML;
-//               row += " | ";
-//           }
-
-//           alert(row);
-//       }
-
-// function  getId(element) {
-//   // console.log("row" + element.parentNode.rowIndex );
-//   console.log('aaa');
-  
-  
-// }
 
 fragment.appendChild(table);
 document.getElementById('tablee').appendChild(fragment);

@@ -55,6 +55,7 @@ daata.on("child_added", function(snapshot) {
     var startbid = childData.startbid;
     var qua = childData.quantity;
     var eTime = childData.edate;
+    var currbbid = childData.currbid;
 
 
     for (var i = 0; i <Object.keys(firebase.database().ref("Products")).length; i++) {
@@ -80,7 +81,7 @@ daata.on("child_added", function(snapshot) {
 // moment(date+' '+time,'DD/MM/YYYY HH:mm').format('MM.DD.YYYY'); 
 
 
-var b = document.createTextNode(endTime);
+var b = document.createTextNode(currbbid);
 
 // setInterval(update, 1000);
 li.appendChild(b);

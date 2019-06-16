@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-auction</title>
+    
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+    integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    
+</head>
+<body>
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+         Your app may use that space for branding, controls and other customizations.-->
+         <form id = "form" action = "">
+            Input: <input type="email" id="Input">
+            <input type="password" id="Input2"><br>
+            <input type="submit" value="Submit">
+          </form>
+
+         <script>
+
+            //const socket = new WebSocket('ws://localhost:12251/getAuctions');
+    
+            var socket = io.connect('http://localhost:8080' , {
+                transports: ['websocket']
+            });
+    
+            
+    
+            $('#form').submit(function(){
+                
+
+        socket.emit('userData',{aa : $('#Input').val() , bb : $('#Input1').val()}) ;
+        
+        return false;
+      });
+    
+            socket.on('authenticate', (userDetails) => {
+    
+
+                console.log('aaaa');
+                
+
+
+            });
+        </script>
+    
+
+</body>
+</html>

@@ -1,10 +1,7 @@
 var firebase = require('firebase');
-// var admin = require('firebase-admin');
-var firebaseAuth = require("firebase/auth");
-var admin = require('firebase-admin');
-var serviceAccount = require("./eauction-36b35-firebase-adminsdk-2lahz-5c26459ccd.json");
-
-
+const admin = require('firebase-admin');
+require('firebase/auth');
+require('firebase/database');
 
 var fireBaseConnection = firebase || fireBaseConnection;
 var hasFirebaseInit = false;
@@ -24,11 +21,15 @@ if (!hasFirebaseInit) {
     hasFirebaseInit = true;
 }
 
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://eauction-36b35.firebaseio.com"
-  });
-
-
 module.exports = {fireBaseConnection};
+module.exports = {
+    isAuthenticated: function (req, res, next) {
+      var user = firebase.auth().currentUser;
+      if (user !== null) {
+        req.user = user;
+        next();
+      } else {
+        res.redirect('/login');
+      }
+    },
+  }
