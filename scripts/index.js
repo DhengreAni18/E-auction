@@ -51,7 +51,6 @@ io.on('connect', (socket) => {
                         
                        
 
-                        data.UsersData = [];
 
                         // user = fireBase.fireBaseConnection.auth();
                         // console.log(user);

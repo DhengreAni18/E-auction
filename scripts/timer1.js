@@ -15,7 +15,8 @@ socket.emit('getAuctions', () => {
 
 socket.on('auctionData', (data) => {
 
-    
+    $('#productTableB tr').remove();
+
 
     var fragment = document.createDocumentFragment();
     var table = document.createElement("table");
@@ -38,6 +39,9 @@ socket.on('auctionData', (data) => {
         var pcodee = item.pcode;
         var quantity = item.quantity;
         var descr = item.description;
+
+        $('#productTableB tr').remove();
+
         
         thead = document.createElement("thead");
         tr = document.createElement("tr");
@@ -55,7 +59,7 @@ socket.on('auctionData', (data) => {
         thead.innerHTML = '<tr>'+
         '<th>Remaining Time</th>'+
         '<th>Products</th>'+
-        '<th>Product Description</th>'+
+        '<th>Description</th>'+
         '<th>Start-Bid</th>'+
         '<th>Current-Bid</th>'+
         '<th>Place your Bid</th>'+
@@ -67,6 +71,7 @@ socket.on('auctionData', (data) => {
        td3.innerHTML =  stBid;
        td2.innerHTML = crBid;
        td4.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />'+'<input placeholder="Bid amount" id="bidamt_' + i + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  id="bidbtn_' + i + '" onclick="submitBid(' +i +');" >' +  'Place Bid' + '</button>' ;
+
 
  
        tr.appendChild(td1);
@@ -194,8 +199,10 @@ function updateData() {
                     });
                 });
                 
-                
-                
+                $( "#productTableB" ).load(window.location.href + " #productTableB" );
+
+                // document.getElementById("bidamt_ " + i  ).reset();
+
                 // location.reload();
                     console.log(name);
                     console.log(uidd);
