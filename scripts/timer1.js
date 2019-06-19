@@ -35,7 +35,7 @@ socket.on('auctionData', (data) => {
         var remainT = dhm(duration.asMilliseconds());
         var proName = item.name;
         var stBid = item.startbid;
-        var crBid = item.currbid;
+         crBid = item.currbid;
         var pcodee = item.pcode;
         var quantity = item.quantity;
         var descr = item.description;
@@ -168,27 +168,38 @@ function updateData() {
                             alert('Bid amount cannot be empty');
                         }
 
+                        else if(crBid[i] < bidAmount) {
+                            alert('Bid Amount should be less than the Current Bid');
+                            console.log(crBid[i]);
+                            
+                        }
+
                         else {
                     name = user.displayName;
                     uidd = user.uid;
                 
-                    var userData = firebase.database().ref('users/' + uidd+'/' + i  );
+                    var userData = firebase.database().ref('ProductCode/'+ i  );
                     var ProData = firebase.database().ref('Products').orderByChild('pcode').equalTo(i); 
 
 
-                        var currentDateandTime = moment().format('YYYY MM DD , hh:mm:ss');
+                        var currentDateandTime = moment().unix();
                 // var id = document.getElementById('prodid');
                 // var bid = document.getElementById('bidd');
                 alert('Placed Bid Successfully');
                 //  alert(Pcode);
                 //  alert(currentDateandTime);
-                var addUser = userData.push (
-                    {
-                    BidTime: currentDateandTime,
-                    Bid: bidAmount,
-                    Pcode: Pcode
-                    }
-                );
+                
+
+                        var addUser = firebase.database().ref('ProductCode/'+ i  ).push (
+                            {
+                            BidTime: currentDateandTime,
+                            Bid: bidAmount,
+                            userid: uidd,
+                            username:name
+                            }
+                        );
+                   
+                
 
                 ProData.on("value", function(snapshot) {
                     snapshot.forEach(function(data) {
@@ -199,7 +210,7 @@ function updateData() {
                     });
                 });
                 
-                $( "#productTableB" ).load(window.location.href + " #productTableB" );
+                // $( "#productTableB" ).load(window.location.href + " #productTableB" );
 
                 // document.getElementById("bidamt_ " + i  ).reset();
 
@@ -226,7 +237,7 @@ function updateData() {
                                   // console.log(user);
                                   $('#loggTTable tr').remove();
 
-                                  var usersData = firebase.database().ref('users/' + uidd  +'/'+ i );
+                                  var usersData = firebase.database().ref('users/' + uidd  +'/'+ i ).orderByChild("Bid");
                                   usersData.once('value', function (snapshot) {
                                      
                                     snapshot.forEach((function(CChild) { 

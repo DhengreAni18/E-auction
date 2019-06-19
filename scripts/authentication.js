@@ -36,12 +36,14 @@ init();
 var add_data = function() {
 
   
+  
   var proref = firebase.database().ref('Products');
   var quantity = document.getElementById('quan');
   var startdate = document.getElementById('sdatetime');
     // var proID = document.getElementById('proid');
     var enddate = document.getElementById('edatetime');
     // var currBid = document.getElementById('currBid');
+    var productID = document.getElementById('pcode');
   var productName = document.getElementById('naam');
   var pro_desc = document.getElementById('deescription');
   var start_Bid = document.getElementById('sttartbid');
@@ -52,7 +54,7 @@ var add_data = function() {
       name: productName.value,
       quantity: quantity.value,
       sdate:startdate.value,
-      // id :proID.value,
+      pcode :productID.value,
       edate:enddate.value,
       currbid:'',
       description: pro_desc.value,
@@ -62,7 +64,6 @@ var add_data = function() {
     
   
   );
-  location.reload();
 
 
   };
