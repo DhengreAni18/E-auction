@@ -95,6 +95,7 @@ socket.on('auctionData', (data) => {
     
 
 
+    document.getElementById('userName').innerText = 'Welcome ' + localStorage.getItem("userN");
 
 
 

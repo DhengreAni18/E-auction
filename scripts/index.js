@@ -1,5 +1,6 @@
 var fireBase = require('./Sfirebase');
 // var auth = require('firebase/auth');
+// var timer1 = require('./dataB');
 var SERVER_PORT = 9090;
 var moment = require("moment");
 var express = require('express');
@@ -10,6 +11,8 @@ var io = require('socket.io').listen(server);
 io.set('transports', ['websocket']);
 
 server.listen(SERVER_PORT);
+
+console.log("on port" + SERVER_PORT);
 
 console.log("Server Running");
 
@@ -40,6 +43,8 @@ io.on('connect', (socket) => {
                                 }
 
                                 console.log(data);
+                                // console.log(datafile.uidd);
+                                
 
                                
 
@@ -50,6 +55,7 @@ io.on('connect', (socket) => {
 
                         
                        
+// console.log(timer1.name);
 
 
                         // user = fireBase.fireBaseConnection.auth();

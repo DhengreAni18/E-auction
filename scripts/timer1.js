@@ -95,6 +95,7 @@ socket.on('auctionData', (data) => {
     
 
 
+    document.getElementById('userName').innerText = 'Welcome ' + localStorage.getItem("userN");
 
 
 
@@ -170,7 +171,7 @@ function updateData() {
 
                         else if(crBid[i] < bidAmount) {
                             alert('Bid Amount should be less than the Current Bid');
-                            console.log(crBid[i]);
+                            console.log(crBid);
                             
                         }
 
@@ -230,6 +231,7 @@ function updateData() {
                         function showlog(i) {
 
                             firebase.auth().onAuthStateChanged(function(user) {
+                                
                                 if (user) {
                                   // User is signed in.
                                   name = user.displayName;
