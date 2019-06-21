@@ -6,9 +6,10 @@
 
 
 
+
 var auctions_data = [];
 
-socket.emit('getAuctions', () => {
+socket.emit('getAuctions', {
 
 
 });
@@ -34,7 +35,7 @@ socket.on('auctionData', (data) => {
         var duration = moment.duration(end_ts.diff(start_ts));
         var remainT = dhm(duration.asMilliseconds());
         var proName = item.name;
-        var stBid = item.startbid;
+         stBid = item.startbid;
          crBid = item.currbid;
         var pcodee = item.pcode;
         var quantity = item.quantity;
@@ -51,10 +52,6 @@ socket.on('auctionData', (data) => {
         space = document.createElement("td");
         td4 = document.createElement("td");
         td5 = document.createElement("td");
-       // space.innerHTML = '<div> </div>';
-       // var th = document.createElement("th");      // TABLE HEADER.
-       // th.innerHTML = trValues[i];
-    //    $('#productTableB tr').remove();
 
         thead.innerHTML = '<tr>'+
         '<th>Remaining Time</th>'+
@@ -70,7 +67,7 @@ socket.on('auctionData', (data) => {
         td5.innerHTML = descr;
        td3.innerHTML =  stBid;
        td2.innerHTML = crBid;
-       td4.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />'+'<input placeholder="Bid amount" id="bidamt_' + i + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  id="bidbtn_' + i + '" onclick="submitBid(' +i +');" >' +  'Place Bid' + '</button>' ;
+       td4.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />'+'<input placeholder="Bid amount" id="bidamt_' + i + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid('+i+');"  >' +  'Place Bid' + '</button>' ;
 
 
  
@@ -80,7 +77,10 @@ socket.on('auctionData', (data) => {
        tr.appendChild(td3);
        tr.appendChild(td2);
        tr.appendChild(td4);
-   
+
+       td3.id ="stbid_" + i ;
+       td2.id ="crbid_" + i ;
+
        table.appendChild(tr);
        table.className = 'table table-striped';
 
@@ -92,13 +92,7 @@ socket.on('auctionData', (data) => {
     fragment.appendChild(table);
     document.getElementById('tablee').appendChild(fragment);
 
-    
-
-
     document.getElementById('userName').innerText = 'Welcome ' + localStorage.getItem("userN");
-
-
-
 
     window.setInterval(function () {
 
@@ -111,13 +105,6 @@ socket.on('auctionData', (data) => {
 
 
 });
-
-
-
-
-
-
-
 
 function dhm(ms) {
     var d, h, m, s;
@@ -144,84 +131,40 @@ function updateData() {
         var duration = moment.duration(end_ts.diff(start_ts));
         var remainT = dhm(duration.asMilliseconds());
 
-        //alert(("#time_" + i));
         $("#time_" + i).html(remainT);
     });
 }
 
 
-
-
-
-
                 function submitBid(i) {
-                    var bidAmount = $('#bidamt_' + i).val();
-                    var Pcode = $('#pcode_' + i).val();
-
-                    // alert(Pcode);
-                    
-
-                    var user = firebase.auth().currentUser;
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                    
-                        if(bidAmount ==0) {
-                            alert('Bid amount cannot be empty');
-                        }
-
-                        else if(crBid[i] < bidAmount) {
-                            alert('Bid Amount should be less than the Current Bid');
-                            console.log(crBid);
-                            
-                        }
-
-                        else {
-                    name = user.displayName;
-                    uidd = user.uid;
-                
-                    var userData = firebase.database().ref('ProductCode/'+ i  );
-                    var ProData = firebase.database().ref('Products').orderByChild('pcode').equalTo(i); 
+                  var bidamount = $('#bidamt_' + i).val();
+                  var starttbid =  $('#stbid_' + i).text(); 
+                  var currentBid = $('#crbid_' + i).text();
+                  
+                  
+                  if(bidamount == 0) {
+                    alert('Enter a bid value');
+                  }
 
 
-                        var currentDateandTime = moment().unix();
-                // var id = document.getElementById('prodid');
-                // var bid = document.getElementById('bidd');
-                alert('Placed Bid Successfully');
-                //  alert(Pcode);
-                //  alert(currentDateandTime);
-                
+                  else if(bidamount > starttbid) {
+                        alert('Bid amount should be lesser than the start bid');
+          
+                      }
 
-                        var addUser = firebase.database().ref('ProductCode/'+ i  ).push (
-                            {
-                            BidTime: currentDateandTime,
-                            Bid: bidAmount,
-                            userid: uidd,
-                            username:name
-                            }
-                        );
-                   
-                
+                  else if(currentBid != 0) {
+                      if(bidamount > currentBid) {
+                        alert('Bid amount should be lesser than the current bid');
+                      }
 
-                ProData.on("value", function(snapshot) {
-                    snapshot.forEach(function(data) {
-                        console.log(data.key);
-                        var PushData = firebase.database().ref('Products/' + data.key ).update({
-                            currbid:bidAmount
-                        })
-                    });
-                });
-                
-                // $( "#productTableB" ).load(window.location.href + " #productTableB" );
+                      else {
+                        socket.emit('postBid', { Bid_amt: $('#bidamt_' + i).val() , product_code: $('#pcode_' + i).val() , token:localStorage.getItem("userT") , name:localStorage.getItem("userN")  });
+                      }
+                  }
 
-                // document.getElementById("bidamt_ " + i  ).reset();
-
-                // location.reload();
-                    console.log(name);
-                    console.log(uidd);
-                    
-                    } }
-                });
-                
+                  else {
+                        socket.emit('postBid', { Bid_amt: $('#bidamt_' + i).val() , product_code: $('#pcode_' + i).val() , token:localStorage.getItem("userT") , name:localStorage.getItem("userN")  });
+                      }
                 }
 
 
@@ -230,62 +173,45 @@ function updateData() {
 
                         function showlog(i) {
 
-                            firebase.auth().onAuthStateChanged(function(user) {
+                          socket.emit('bidlog' , {product_code: $('#pcode_' + i).val() , name:localStorage.getItem("userN")} )
+
+                          
                                 
-                                if (user) {
-                                  // User is signed in.
-                                  name = user.displayName;
-                                  uidd = user.uid;
-                                  // console.log(user);
+                                socket.on('postlogdata' , (postlog) => {
+
                                   $('#loggTTable tr').remove();
 
-                                  var usersData = firebase.database().ref('users/' + uidd  +'/'+ i ).orderByChild("Bid");
-                                  usersData.once('value', function (snapshot) {
+                                    postlog_data = postlog;
+
+                                  $.each(postlog_data.logs, (i , item) => {
+
+
+                                    var BidAmt = item.Bid;
+                                    var tstamp = item.BidTime;
+
+                                    trow = document.createElement("tr");
+                                    td11 = document.createElement("td");
+                                    td22 = document.createElement("td");
+
+                                    console.log(BidAmt);
+                                    console.log(tstamp);
+                            
+                                   td11.innerHTML =    tstamp
+                                   td22.innerHTML =  BidAmt;
+
+                                  trow.appendChild(td11);
+                                  trow.appendChild(td22);
+
+
+                                  tablee.appendChild(trow);
+                                  tablee.className = 'table table-striped';
+
+                                    tablee.id = 'loggTTable';
+
+                                  })
                                      
-                                    snapshot.forEach((function(CChild) { 
-
-                                        var logValue = CChild.val();
-                                        var BidAmt = logValue.Bid;
-                                        var tstamp = logValue.BidTime;
-
-
-                                        trow = document.createElement("tr");
-                                        td11 = document.createElement("td");
-                                        td22 = document.createElement("td");
-
-                                        console.log(BidAmt);
-                                        console.log(tstamp);
-
-                                        
+                                     })
                                 
-                                       td11.innerHTML =    tstamp
-                                       td22.innerHTML =  BidAmt;
-
-                                    //    logmodal = '<ul>'+'<li>' +tstamp + '------' + BidAmt +'</li>'+ '</ul>'
-
-                                     
-
-                                        // $("#logTable").append(logmodal);
-
-                                      trow.appendChild(td11);
-                                      trow.appendChild(td22);
-
-
-                                      tablee.appendChild(trow);
-                                      tablee.className = 'table table-striped';
-
-                                        // console.log('asd');
-                                        tablee.id = 'loggTTable';
-                                        
-
-
-                                    
-                                    }));
-                                   
-                                  });
-                                } 
-                              });
-
                             };
 
                             

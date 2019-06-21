@@ -2,12 +2,16 @@
 
 <head>
  
-
+<!-- Firebase CDN -->
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+<!-- Firebase CDN End -->    
+    
     <link rel="stylesheet" href="/styles/style.css">
+
+<!-- Bootstrap, jQuery & Momentjs START -->
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -23,87 +27,68 @@
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
     crossorigin="anonymous"></script>
 
-    <script src="/scripts/fireBase.js"></script>
-
+<!-- Bootstrap,jQuery & Momentjs END -->
 
 <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">E-auction</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
 
-
-   
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">E-auction</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-
- </li>
-        
-        
-        </li>
-        
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <a class="nav-link disabled" href="#" id="userName"> </a>
-        <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="window.location.href = '../socketio2/login.html';" >Logout</button>
-      </form>
-    </div>
-  </nav>
-</div>
-
-
-
-
-<!-- <div id="auctions"></div> -->
+                </li>
+                </li>
+          
+              </ul>
+          
+              <form class="form-inline my-2 my-lg-0">
+                <a class="nav-link disabled" href="#" id="userName"> </a>
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="window.location.href = '../login/login.html';" >Logout</button>
+              </form>
+            </div>
+          </nav>
+        </div>
 
   <div id="tablee">
-      <!-- <div class="row">
-          <div class="col-sm-3" >Products</div>
-          <div class="col-sm-2" id="stbid">StartBid</div>
-          <div class="col-sm-1" >Current Bid</div>
-        </div> -->
-        <!-- <span id="connection_status"></span> -->
-    
+
   </div>
 
   <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
-  
+
         <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title" style="float: left">Bid Log</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            
-          </div>
-          <div class="modal-body">
-              <div id="logTable">
-                <h7 style="float: left ; margin-left: 30px">Timestamp</h7>
-                <h7 style="float: right ; margin-right: 90px;">Bid</h7>
+        <div class="modal-content"> 
+
+              <div class="modal-header">
+                  <h4 class="modal-title" style="float: left">Bid Log</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>    
               </div>
-          </div>
-          <div class="modal-footer">
+
+              <div class="modal-body">
+                  <div id="logTable">
+                    <h7 style="float: left ; margin-left: 30px">Timestamp</h7>
+                    <h7 style="float: right ; margin-right: 90px;">Bid</h7>
+                  </div>
+              </div>
+        
+              <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-  
       </div>
     </div>
+    
 
 
-    <!-- <script src="/scripts/dataB.js"></script> -->
-    <!-- <script src="/scripts/userdetails.js"></script> -->
-    <!-- <script src="/scripts/authentication.js"></script> -->
-    <script src="/scripts/user.js"></script>
-    <!-- <script src="index.js"></script> -->
+<!-- Included Scripts -->
     <script src="/scripts/script.js"></script>
    <script src="/scripts/timer1.js"></script>
+<!-- Included Scripts end -->
+
 </body>
-
-
-
 
 </html>
