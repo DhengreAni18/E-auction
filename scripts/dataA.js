@@ -29,14 +29,14 @@ socket.on('auctionData', (data) => {
                         var quantity = item.quantity;
                         var descr = item.description;
 
-                        thead = document.createElement("thead");
-                        tr = document.createElement("tr");
-                        td1 = document.createElement("td");
-                        td2 = document.createElement("td");
-                        td3 = document.createElement("td");
-                        space = document.createElement("td");
-                        td4 = document.createElement("td");
-                        td5 = document.createElement("td");
+                            thead = document.createElement("thead");
+                            tr = document.createElement("tr");
+                            td1 = document.createElement("td");
+                            td2 = document.createElement("td");
+                            td3 = document.createElement("td");
+                            space = document.createElement("td");
+                            td4 = document.createElement("td");
+                            td5 = document.createElement("td");
 
                         thead.innerHTML = '<tr>'+
                         '<th>Remaining Time</th>'+
@@ -78,7 +78,7 @@ socket.on('auctionData', (data) => {
 
                         updateData();
                     }, 1000);
-});   
+                });   
 
             function dhm(ms) {
               var d, h, m, s;
@@ -103,4 +103,21 @@ socket.on('auctionData', (data) => {
  
                   $("#time_" + i).html(remainT);
               });
+            }
+
+
+            function AddProduct() {
+
+              var quantity = document.getElementById('quan');
+              var startdate = document.getElementById('sdatetime');
+              var enddate = document.getElementById('edatetime');
+              var productID = document.getElementById('pcode');
+              var productName = document.getElementById('naam');
+              var pro_desc = document.getElementById('deescription');
+              var start_Bid = document.getElementById('sttartbid');
+
+              socket.emit('productData' , {productCode:productID.value , productName:productName.value , Quantity: quantity.value , Description:pro_desc.value , startBid:start_Bid.value , startTime:startdate.value , endTime:enddate.value})
+            
+              alert('Successfully added a new product!!');
+
             }

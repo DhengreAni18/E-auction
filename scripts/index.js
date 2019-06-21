@@ -91,5 +91,31 @@ io.on('connect', (socket) => {
                                 }));
                         });
 
-        })
+                 })
+
+        socket.on('productData' , (proData) => {
+
+                var proref = fireBase.fireBaseConnection.database().ref('Products');
+
+                var addpro = proref.push(
+                        
+                        {
+                          name: proData.productName,
+                          quantity:proData.Quantity,
+                          sdate:proData.startTime,
+                          pcode :proData.productCode,
+                          edate:proData.endTime,
+                          currbid:'',
+                          description: proData.Description,
+                          startbid:proData.startBid
+                        }
+                      
+                      );
+
+        })         
+
+
+
+
+
         });
