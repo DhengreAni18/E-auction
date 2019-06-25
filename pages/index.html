@@ -1,118 +1,93 @@
 <html>
+
 <head>
- 
-<!-- Firebase CDNs -->
-
-    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
-
-<!-- Firebase CDNs END -->
-
-    <link rel="stylesheet" href="/styles/style.css">
-
-<!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
-
-<!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>E-auction</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+        integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
 
 
 <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">E-auction</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
-                    
-                    <li class="nav-item">
-                      <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0"  onclick="myFunction()">Add Product</button>
 
-                    </li>
-                    
-                    </li>
-                    
-                  </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <a class="nav-link disabled" href="#" id="userName"> </a>
-                    <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="window.location.replace('../login/login.html')" >Logout</button>
-                  </form>
+    <form class="text-center border border-light p-5">
+        <p class="h4 mb-4">Sign in</p>
+
+        <!-- Email -->
+        <input type="email" name="email" class="form-control mb-4" placeholder="E-mail" id="email">
+
+        <!-- Password -->
+        <input type="password" class="form-control mb-4" placeholder="Password" id="pwdd">
+
+        <div class="d-flex justify-content-around">
+            <div>
+                <!-- Remember me -->
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
                 </div>
-              </nav>
-    
-              <div class="card w-90" id="asd">
-                <div class="card-body">
-                  <h5 class="card-title">Add Products</h5>
-                  
-                  <p class="card-text">
-    
-                    <form >
+            </div>
+            <div>
+                <!-- Forgot password -->
+                <a href="">Forgot password?</a>
+            </div>
+        </div>
+        <!-- Sign in button -->
 
-                   <input type="text" placeholder="Product ID" id="pcode" required/>
-                   <input type="text" placeholder="Name" id="naam" required/>
-                    <input type="text" placeholder="Quantity" id="quan" required/>
-                    <input type="text" placeholder="Description" id="deescription" required/>
-                    <input type="text" placeholder="Start Bid" id="sttartbid" required/> <br> <br>
-                    Start Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="sdatetime" required/>
-                    End Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="edatetime" required/>
-                    <br> <br>
-    
-                    <input class="btn btn-primary" type="submit" onclick="AddProduct();" ></input>
-                  </form>
-                    </p>            
-                </div>
-              </div>
-             
-              <div id="auctions">
+    </form>
+    <button class="btn btn-info btn-block my-4" id="submitbtn">Sign in</button>
+    <script>
 
-              </div>
-                 
-              <!-- MODAL Start -->
-              <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-            
-                  <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                              <h4 class="modal-title" style="float: left">Bid Log</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            
-                          </div>
-                          <div class="modal-body">
-                              <div id="logTable">
-                                <h7 style="float: left ; margin-left: 30px">Timestamp</h7>
-                                <h7 style="float: right ; margin-right: 90px;">Bid</h7>
-                              </div>
-                          </div>
-                  <!-- Modal content END-->
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-            
-                </div>
-              </div>
-          <!-- MODAL END -->
+        var socket = io('http://localhost:12251', {
+            transports: ['websocket']
+        });
+
+        $('#submitbtn').click(function () {
+            socket.emit('authenticateUser', { user_id: $('#email').val(), user_password: $('#pwdd').val()});
+        });
 
 
-        <!-- Included Scripts -->
+        socket.on('authResponse', (response) => {
 
-    <script src="/scripts/dataA.js"></script>
-    <script src="/scripts/script.js"></script>
-          
-        <!-- Included Scripts -->
+            if (response.status) {
+                var user_details = response.value;
+                localStorage.setItem("user_details", JSON.stringify(user_details));                    
+                
+                if (user_details.user_access === "a") {
+                    window.location.replace('../pages/admin/index.html');                    
+                }
+                else {
+                    window.location.replace('../pages/bidder/index.html');
+                }
+            }
+            else {
+                alert(response.message);
+            }
+        });
 
+    </script>
 </body>
+
+
+
 
 </html>

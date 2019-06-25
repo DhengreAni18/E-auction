@@ -1,4 +1,16 @@
 
+window.onload = function() {
+  if(localStorage.getItem("user_details") == null) {
+    // alert('Please login first !!');
+    window.location.replace('../index.html')
+}
+}
+
+function logout() {
+  window.location.href = '../../pages/index.html';
+  localStorage.removeItem('user_details');  
+}
+
 function addItem(){
 	var ul = document.getElementById("pro2");
   var name = document.getElementById("name");
@@ -7,18 +19,6 @@ function addItem(){
   li.appendChild(document.createTextNode(name.value));
   ul.appendChild(li);
 }
-
-function removeItem(){
-	var ul = document.getElementById("");
-  var name = document.getElementById("name");
-  var item = document.getElementById(name.value);
-  ul.removeChild(item);
-}
-
-
-
-
-
 
 function myFunction() {
   var x = document.getElementById("asd");
@@ -30,7 +30,6 @@ function myFunction() {
 }
 
 
-
 function myFunction1() {
   var x = document.getElementById("parar");
   if (x.style.display === "none") {
@@ -40,9 +39,15 @@ function myFunction1() {
   }
 }
 
-
+function getLoggedUserDetails()
+{
+  var user_details = localStorage.getItem("user_details");
+  return JSON.parse(user_details);
+}
 
 
 
 
   
+
+

@@ -1,0 +1,351 @@
+<html>
+
+<head>
+
+  <!-- Firebase CDNs -->
+  <title>Welcome to Auction</title>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+
+  <!-- Firebase CDNs END -->
+
+  <link rel="stylesheet" href="/styles/style.css">
+
+  <!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">E-auction</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item">
+          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0" onclick="myFunction()">Add Product</button>
+
+        </li>
+
+        </li>
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <a class="nav-link disabled" href="#" id="userName"> </a>
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="logout();">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="card w-90" id="asd">
+    <div class="card-body">
+      <h5 class="card-title">Add Products</h5>
+
+      <p class="card-text">
+
+        <form>
+
+          <input type="text" placeholder="Product ID" id="pcode" required />
+          <input type="text" placeholder="Name" id="naam" required />
+          <input type="text" placeholder="Quantity" id="quan" required />
+          <input type="text" placeholder="Description" id="deescription" required />
+          <input type="text" placeholder="Start Bid" id="sttartbid" required /> <br> <br>
+          Start Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="sdatetime" required />
+          End Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="edatetime" required />
+          <br> <br>
+
+          <!-- <button class="btn btn-primary" type = "submit" onclick="AddProduct();" >asda</button> -->
+          <input class="btn btn-primary" type="submit" onclick="AddProduct();"></input>
+        </form>
+      </p>
+    </div>
+  </div>
+
+  <div id="auctions">
+
+  </div>
+
+  <!-- MODAL Start -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" style="float: left">Bid Log</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <div id="logTable">
+            <h7 style="float: left ; margin-left: 30px">Timestamp</h7>
+            <h7 style="float: right ; margin-right: 70px; ">Bid</h7>
+            <h7 style="float: right; margin-right: 80px;">Bidder</h7>
+          </div>
+        </div>
+        <!-- Modal content END-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- MODAL END -->
+
+
+  <!-- Included Scripts -->
+
+  <script src="../../scripts/script.js"></script>
+
+
+  <script>
+
+    
+
+      var socket = io.connect('http://localhost:12251', {
+        transports: ['websocket']
+      });
+
+      var auctions_data = [];
+
+
+      socket.on('connect', () => {
+      //  console.log(socket.connected); // true
+        socket.emit('getAuctions', () => { });
+      });
+
+      socket.on('getAuctionsCallback', (response) => {
+
+
+        if (response.status) {
+
+          auctions_data = response.value;
+
+          $('#productTableB tr').remove();
+
+          var fragment = document.createDocumentFragment();
+          var table = document.createElement("table");
+          table.id = 'productTableB';
+
+
+          $.each(auctions_data.auctions, function (i, item) {
+            var start_ts = moment.unix(auctions_data.time_stamp);
+            var end_ts = moment(item.edate, "YYYY/MM/DD H:mm:ss");
+            var duration = moment.duration(end_ts.diff(start_ts));
+            var remainT = dhm(duration.asMilliseconds());
+            var proName = item.name;
+            var stBid = item.startbid;
+            var crBid = item.currbid;
+            var pcodee = item.pcode;
+            var quantity = item.quantity;
+            var descr = item.description;
+
+            thead = document.createElement("thead");
+            tr = document.createElement("tr");
+            td1 = document.createElement("td");
+            td2 = document.createElement("td");
+            td3 = document.createElement("td");
+            space = document.createElement("td");
+            td4 = document.createElement("td");
+            td5 = document.createElement("td");
+
+            thead.innerHTML = '<tr>' +
+              '<th>Remaining Time</th>' +
+              '<th>Products</th>' +
+              '<th>Description</th>' +
+              '<th>Start-Bid</th>' +
+              '<th>Current-Bid</th>' +
+              '</tr>';
+
+            td1.innerHTML = '<span class="badge badge-danger"  id="time_' + i + '">' + remainT + '</span>';
+            space.innerHTML = '(' + pcodee + ')' + proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + i + '" type="button" data-toggle="modal" data-target="#myModal" onclick = "showAlog(' + i + ');">' + 'Bid Log' + '</button>';
+            td5.innerHTML = descr;
+            td3.innerHTML = stBid;
+            td2.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />' + crBid;
+
+            tr.appendChild(td1);
+            tr.appendChild(space);
+            tr.appendChild(td5);
+            tr.appendChild(td3);
+            tr.appendChild(td2);
+
+            table.appendChild(tr);
+            table.className = 'table table-striped';
+
+          });
+
+          table.appendChild(thead);
+
+          fragment.appendChild(table);
+          document.getElementById('auctions').appendChild(fragment);
+
+          document.getElementById('userName').innerText = 'Welcome ' + getLoggedUserDetails().user_name;
+
+          window.setInterval(function () {
+            var new_date = moment.unix(auctions_data.time_stamp).add(1, 'seconds');
+            auctions_data.time_stamp = new_date.unix();
+
+            updateData();
+          }, 1000);
+        }
+        else {
+          alert(response.message);
+        }
+      });
+
+      function dhm(ms) {
+        var d, h, m, s;
+        s = Math.floor(ms / 1000);
+        m = Math.floor(s / 60);
+        s = s % 60;
+        h = Math.floor(m / 60);
+        m = m % 60;
+        d = Math.floor(h / 24);
+        h = h % 24;
+        var result = d + ":" + h + ":" + m + ":" + s;
+        return result;
+      }
+
+      function updateData() {
+        $.each(auctions_data.auctions, function (i, item) {
+
+          
+          var start_ts = moment.unix(auctions_data.time_stamp);
+          var end_ts = moment(item.edate, "YYYY/MM/DD H:mm:ss");
+          var duration = moment.duration(end_ts.diff(start_ts));
+          var remainT = dhm(duration.asMilliseconds());
+
+          $("#time_" + i).html(remainT);
+        });
+      }
+
+
+      function AddProduct() {
+
+        var quantity = document.getElementById('quan').value;
+        var startdate = document.getElementById('sdatetime').value;
+        var enddate = document.getElementById('edatetime').value;
+        var productID = document.getElementById('pcode').value;
+        var productName = document.getElementById('naam').value;
+        var pro_desc = document.getElementById('deescription').value;
+        var start_Bid = document.getElementById('sttartbid').value;
+
+       if(productID ==0) {
+        console.log('id??');
+        
+       }
+        else {
+        socket.emit('addNewAuction',
+          {
+            productCode: productID,
+            productName: productName,
+            Quantity: quantity,
+            Description: pro_desc,
+            startBid: start_Bid,
+            startTime: startdate,
+            endTime: enddate,
+            token:getLoggedUserDetails().token 
+          })
+
+          Swal.fire(
+            'Success',
+            'Auction created successfully',
+            'success'
+          )
+        }
+      }
+      socket.on('unAuthorizedCallback', (response) =>{
+        Swal.fire(
+          response.message
+        )
+      });
+
+      fragmentt = document.createDocumentFragment();
+      tablee = document.createElement("table");
+
+      function showAlog(i) {
+        $('#loggTTable tr').remove();
+
+        socket.emit('bidlogForAdmin', { product_code: $('#pcode_' + i).val(), name: getLoggedUserDetails().user_name,  token:getLoggedUserDetails().token })
+
+        socket.on('bidlogForAdminCallBack', (response) => {
+
+          postAlog_data = response;
+          $('#loggTTable tr').remove();
+
+          $.each(postAlog_data.value.logs, (i, item) => {
+
+            var Bidder = item.user_id;
+            var BidAmt = item.bid_amount;
+            var tstamp = item.time_stamp;
+            var timeStamp = moment.unix(tstamp).format("MM/DD/YYYY H:mm")
+
+            trow = document.createElement("tr");
+            td11 = document.createElement("td");
+            td22 = document.createElement("td");
+            td33 = document.createElement("td");
+
+            td11.innerHTML = timeStamp;
+            td33.innerHTML = Bidder;
+            td22.innerHTML = BidAmt;
+
+            trow.appendChild(td11);
+            trow.appendChild(td33);
+            trow.appendChild(td22);
+
+            tablee.appendChild(trow);
+
+            tablee.className = 'table table-striped';
+
+            tablee.id = 'loggTTable';
+
+          })
+
+        })
+      };
+
+      fragmentt.appendChild(tablee);
+      document.getElementById('logTable').appendChild(fragmentt);
+
+
+      window.addEventListener("beforeunload", function () {
+        console.log("Close web socket");
+        socket.close();
+      });
+    
+
+  </script>
+
+  <!-- Included Scripts -->
+
+</body>
+
+</html>

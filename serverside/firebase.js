@@ -1,7 +1,5 @@
 var firebase = require('firebase');
 const admin = require('firebase-admin');
-require('firebase/auth');
-require('firebase/database');
 
 var fireBaseConnection = firebase || fireBaseConnection;
 var hasFirebaseInit = false;
@@ -22,14 +20,3 @@ if (!hasFirebaseInit) {
 }
 
 module.exports = {fireBaseConnection};
-module.exports = {
-    isAuthenticated: function (req, res, next) {
-      var user = firebase.auth().currentUser;
-      if (user !== null) {
-        req.user = user;
-        next();
-      } else {
-        res.redirect('/login');
-      }
-    },
-  }
