@@ -5,14 +5,17 @@ var socket = io.connect('http://localhost:12251', {
 var auctions_data = null;
 
 
-  socket.emit('getAuctions', () => { });
+  socket.emit('getAuctionsBidder', ({isCalled : true , token : getLoggedUserDetails().token}));
 
 
-socket.on('getAuctionsCallback', (response) => {
+socket.on('getAuctionsBidderCallback', (response) => {
 
   if (response.status) {
 
     auctions_data = response.value;
+
+    if(!auctions_data.isUpdate)
+{
     $('#productTableB tr').remove();
 
     var fragment = document.createDocumentFragment();
@@ -66,7 +69,7 @@ socket.on('getAuctionsCallback', (response) => {
       space.innerHTML = proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm  bidbtnn" id="bidlog_' + i + '" type="button" data-toggle="modal" data-target="#myModal" onclick = "showlog(' + i + ');">' + 'Bid Log' + '</button>';
       td5.innerHTML = descr;
       td3.innerHTML = stBid;
-      td2.innerHTML = crBid;
+      td2.innerHTML = '<span id = "cuurbid_'+i+ '">'+ crBid + '</span>';
       td4.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />' + '<input placeholder="Bid amount" id="bidamt_' + i + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid(' + i + ');"  >' + 'Place Bid' + '</button>';
 
       tr.appendChild(td1);
@@ -77,13 +80,12 @@ socket.on('getAuctionsCallback', (response) => {
       tr.appendChild(td4);
 
       td3.id = "stbid_" + i;
-      td2.id = "crbid_" + i;
+      // td2.id = "crbid_" + i;
 
       table.appendChild(tr);
       table.className = 'table table-striped';
 
     });
-
 
     fragment.appendChild(table);
     document.getElementById('tablee').appendChild(fragment);
@@ -96,12 +98,19 @@ socket.on('getAuctionsCallback', (response) => {
       auctions_data.time_stamp = new_date.unix();
 
       updateData();
-    }, 1000);
+    }, 1000);}
+
+    else {
+      alert('asd');
+      updateData();
+    }
   }
   else {
     alert(response.message);
   }
+
 });
+
 
 function dhm(ms) {
   var d, h, m, s;
@@ -117,9 +126,7 @@ function dhm(ms) {
 
 }
 
-function updateData() {
-
-
+function  updateData() {
   $.each(auctions_data.auctions, function (i, item) {
 
     var start_ts = moment.unix(auctions_data.time_stamp);
@@ -127,76 +134,39 @@ function updateData() {
     var duration = moment.duration(end_ts.diff(start_ts));
     var remainT = dhm(duration.asMilliseconds());
 
+    
+    var currentBid = item.currbid;
+    
+    $("#cuurbid_" + i).html(currentBid);
+
     $("#time_" + i).html(remainT);
   });
 }
 
+
+
 function submitBid(i) {
   var bidamount = $('#bidamt_' + i).val();
   var starttbid = $('#stbid_' + i).text();
-  var currentBid = $('#crbid_' + i).text();
+  var currentBid = $('#cuurbid_' + i).text();
 
-  if (bidamount == 0) {
-    Swal.fire({
-      type: 'error',
-      title: 'Oops...',
-      text: 'Enter a bid value'
-    });
-  }
 
-  else if(bidamount == starttbid) {
-    Swal.fire({
-      type: 'error',
-      title: 'Oops...',
-      text: 'Bid amount should be lesser than the start bid'
-    });
-  }
-  else if (bidamount > starttbid) {
-    Swal.fire({
-      type: 'error',
-      title: 'Oops...',
-      text: 'Bid amount should be lesser than the start bid'
-    });
-
-  }
-
-  else if (currentBid != 0) {
-    if (bidamount > currentBid) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Bid amount should be lesser than the current bid'
-      });
-    }
-
-    else if(bidamount == currentBid) {
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Bid amount should be lesser than the current bid'
-      });
-
-    }
-
-    else {
-      socket.emit('postBid', { Bid_amt: $('#bidamt_' + i).val(), product_code: $('#pcode_' + i).val(), token: getLoggedUserDetails().token, user_id: getLoggedUserDetails().user_id });
-      Swal.fire(
-        'Bid placed successfully!!',
-        '',
-        'success'
-      )
-    }
-  }
-
-  else {
-    socket.emit('postBid', { Bid_amt:  $('#bidamt_' + i).val(), product_code: $('#pcode_' + i).val(), token: getLoggedUserDetails().token, user_id: getLoggedUserDetails().user_id });
-    Swal.fire(
-      'Bid placed successfully!!',
-      '',
-      'success'
-    )
-  }
+  socket.emit('postBid', { 
+    Bid_amt:  $('#bidamt_' + i).val(),
+    product_code: $('#pcode_' + i).val(),
+    token: getLoggedUserDetails().token,
+    user_id: getLoggedUserDetails().user_id,
+    curbid:currentBid,
+    startBid: starttbid
+  });
 }
+
+socket.on('postBidCallback', (response) =>{
+  Swal.fire({
+    type: response.msg,
+    title: response.message
+  })
+});
 
 socket.on('unAuthorizedCallback', (response) =>{
   Swal.fire(

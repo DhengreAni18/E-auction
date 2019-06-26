@@ -50,7 +50,8 @@
       <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0" onclick="myFunction()">Add Product</button>
+          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0"  data-toggle="modal" data-target="#addpro">Add Product</button>
+          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0"  data-toggle="modal" data-target="#addbidder">Add Bidder</button>
 
         </li>
 
@@ -60,33 +61,89 @@
       <form class="form-inline my-2 my-lg-0">
         <a class="nav-link disabled" href="#" id="userName"> </a>
         <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="logout();">Logout</button>
+        
       </form>
     </div>
   </nav>
 
-  <div class="card w-90" id="asd">
-    <div class="card-body">
-      <h5 class="card-title">Add Products</h5>
 
-      <p class="card-text">
+   <!-- Modal -->
+   <div class="modal fade" id="addpro" role="dialog">
+    <div class="modal-dialog">
 
-        <form>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Product Details</h4>
 
-          <input type="text" placeholder="Product ID" id="pcode" required />
-          <input type="text" placeholder="Name" id="naam" required />
-          <input type="text" placeholder="Quantity" id="quan" required />
-          <input type="text" placeholder="Description" id="deescription" required />
-          <input type="text" placeholder="Start Bid" id="sttartbid" required /> <br> <br>
-          Start Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="sdatetime" required />
-          End Date & Time : <input type="datetime" placeholder="YYYY/MM/DD H:mm" id="edatetime" required />
-          <br> <br>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
 
-          <!-- <button class="btn btn-primary" type = "submit" onclick="AddProduct();" >asda</button> -->
-          <input class="btn btn-primary" type="submit" onclick="AddProduct();"></input>
-        </form>
-      </p>
+
+          <form>
+              
+            <input type="text" class="form-control" placeholder="Product ID" id="pcode" required /><br>
+            <input type="text" class="form-control" placeholder="Name" id="naam" required /><br>
+            <input type="text" class="form-control" placeholder="Quantity" id="quan" required /><br>
+            <input type="text" class="form-control" placeholder="Description" id="deescription" required /><br>
+            <input type="text" class="form-control" placeholder="Start Bid" id="sttartbid" required /> <br> <br>
+            Start Date & Time : <input type="datetime" class="form-control"  placeholder="YYYY/MM/DD H:mm" id="sdatetime" required /><br>
+            End Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="edatetime" required />
+            <br> <br>
+  
+            <input class="btn btn-primary" type="button" value="Submit"  onclick="AddProduct();"></input>
+          </form>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addbidder" role="dialog">
+      <div class="modal-dialog">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add Bidder Details</h4>
+  
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+  
+  
+            <form>
+                
+              <input type="text" class="form-control" placeholder="User ID" id="userID" required /><br>
+              <input type="email" class="form-control" placeholder="Email ID" id="emailID" required /><br>
+              <input type="text" class="form-control" placeholder="Username" id="user_Name" required /><br>
+              <input type="hidden" required id="access" value="b" />
+              <input type="hidden" required id="user_password" value="0192023a7bbd73250516f069df18b500" />
+
+              <br>
+             
+    
+              <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();"></input>
+            </form>
+  
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  
 
   <div id="auctions">
 
@@ -139,10 +196,10 @@
 
       socket.on('connect', () => {
       //  console.log(socket.connected); // true
-        socket.emit('getAuctions', () => { });
+        socket.emit('getAuctionsAdmin',({isCalled : true , token : getLoggedUserDetails().token}));
       });
 
-      socket.on('getAuctionsCallback', (response) => {
+      socket.on('getAuctionsAdminCallback', (response) => {
 
 
         if (response.status) {
@@ -248,6 +305,33 @@
       }
 
 
+      function AddBidder() {
+        var userID = document.getElementById('userID').value;
+        var emailID = document.getElementById('emailID').value;
+        var userNAME = document.getElementById('user_Name').value;
+        
+        socket.emit('addNewBidder',
+          {
+            bidder_id: userID,
+            bidder_email: emailID,
+            bidder_name: userNAME,
+            token:getLoggedUserDetails().token 
+          });
+      }
+
+      socket.on('addNewBidderCallback', (response) =>{
+        Swal.fire({
+          type: response.msg,
+          title: response.message
+        })
+      });
+
+      socket.on('unAuthorizedCallback', (response) =>{
+        Swal.fire(
+          response.message
+        )
+      });
+
       function AddProduct() {
 
         var quantity = document.getElementById('quan').value;
@@ -258,11 +342,7 @@
         var pro_desc = document.getElementById('deescription').value;
         var start_Bid = document.getElementById('sttartbid').value;
 
-       if(productID ==0) {
-        console.log('id??');
-        
-       }
-        else {
+       
         socket.emit('addNewAuction',
           {
             productCode: productID,
@@ -274,14 +354,15 @@
             endTime: enddate,
             token:getLoggedUserDetails().token 
           })
-
-          Swal.fire(
-            'Success',
-            'Auction created successfully',
-            'success'
-          )
-        }
       }
+
+      socket.on('addNewAuctionCallback', (response) =>{
+        Swal.fire({
+          type: response.msg,
+          title: response.message
+        })
+      });
+
       socket.on('unAuthorizedCallback', (response) =>{
         Swal.fire(
           response.message
