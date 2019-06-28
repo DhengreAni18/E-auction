@@ -5,22 +5,23 @@ var socket = io.connect('http://localhost:12251', {
 var auctions_data = null;
 
 
-  socket.emit('getAuctionsBidder', ({isCalled : true , token : getLoggedUserDetails().token}));
+  socket.emit('getAuctionsBidder', ({ token : getLoggedUserDetails().token}));
 
 
 socket.on('getAuctionsBidderCallback', (response) => {
+
+  var fragment = document.createDocumentFragment();
+    var table = document.createElement("table");
+    table.id = 'productTableB';
 
   if (response.status) {
 
     auctions_data = response.value;
 
-    if(!auctions_data.isUpdate)
-{
+    
     $('#productTableB tr').remove();
 
-    var fragment = document.createDocumentFragment();
-    var table = document.createElement("table");
-    table.id = 'productTableB';
+    
 
     $('#productTableB tr').remove();
 
@@ -98,12 +99,8 @@ socket.on('getAuctionsBidderCallback', (response) => {
       auctions_data.time_stamp = new_date.unix();
 
       updateData();
-    }, 1000);}
-
-    else {
-      alert('asd');
-      updateData();
-    }
+    }, 1000);
+  
   }
   else {
     alert(response.message);
@@ -121,7 +118,7 @@ function dhm(ms) {
   m = m % 60;
   d = Math.floor(h / 24);
   h = h % 24;
-  var result = d + ":" + h + ":" + m + ":" + s;
+  var result = d +'d' + " " + h + 'h' + " " + m  + 'm'+ " " + s + 's';
   return result;
 
 }

@@ -1,9 +1,9 @@
 <html>
 
 <head>
+  <title>Welcome to Auction</title>
 
   <!-- Firebase CDNs -->
-  <title>Welcome to Auction</title>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
@@ -92,12 +92,13 @@
             End Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="edatetime" required />
             <br> <br>
   
-            <input class="btn btn-primary" type="button" value="Submit"  onclick="AddProduct();"></input>
-          </form>
+            
 
 
         </div>
         <div class="modal-footer">
+            <input class="btn btn-primary" type="button" value="Submit"  onclick="AddProduct();"></input>
+          </form>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -130,12 +131,13 @@
               <br>
              
     
-              <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();"></input>
-            </form>
-  
+              
   
           </div>
           <div class="modal-footer">
+              <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();"></input>
+            </form>
+  
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -197,6 +199,11 @@
       socket.on('connect', () => {
       //  console.log(socket.connected); // true
         socket.emit('getAuctionsAdmin',({isCalled : true , token : getLoggedUserDetails().token}));
+
+        // function showname() {
+        //   socket.emit('getAuctionsAdmin',({ product_code: $('#pcode_' + i).val() }));
+
+        // }
       });
 
       socket.on('getAuctionsAdminCallback', (response) => {
@@ -224,6 +231,8 @@
             var pcodee = item.pcode;
             var quantity = item.quantity;
             var descr = item.description;
+            var bidderID = item.user_id;
+
 
             thead = document.createElement("thead");
             tr = document.createElement("tr");
@@ -233,6 +242,8 @@
             space = document.createElement("td");
             td4 = document.createElement("td");
             td5 = document.createElement("td");
+            td6 = document.createElement("td");
+
 
             thead.innerHTML = '<tr>' +
               '<th>Remaining Time</th>' +
@@ -240,6 +251,7 @@
               '<th>Description</th>' +
               '<th>Start-Bid</th>' +
               '<th>Current-Bid</th>' +
+              '<th>Bidder name</th>' +
               '</tr>';
 
             td1.innerHTML = '<span class="badge badge-danger"  id="time_' + i + '">' + remainT + '</span>';
@@ -247,12 +259,15 @@
             td5.innerHTML = descr;
             td3.innerHTML = stBid;
             td2.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />' + crBid;
+            td6.innerHTML = bidderID;
 
             tr.appendChild(td1);
             tr.appendChild(space);
             tr.appendChild(td5);
             tr.appendChild(td3);
             tr.appendChild(td2);
+            tr.appendChild(td6);
+
 
             table.appendChild(tr);
             table.className = 'table table-striped';
@@ -287,8 +302,10 @@
         m = m % 60;
         d = Math.floor(h / 24);
         h = h % 24;
-        var result = d + ":" + h + ":" + m + ":" + s;
+
+        var result = d +' days' + " " + h + ' hrs' + " " + m  + ' mins'+ " " + s + ' secs';
         return result;
+        
       }
 
       function updateData() {

@@ -20,19 +20,6 @@ console.log("Server Running");
 
 var timeStampHelper = new helper.TimeStampHelper();
 
-var bidder2 = {
-        user_id: "bidder_2",
-        user_email: "bidder2@auction.com",
-        user_name: "Bidder 2",
-        user_access: "b",
-        user_password: "0192023a7bbd73250516f069df18b500"
-};
-
-
-addNewUser(bidder2);
-console.log("Not Added");
-//resolve("3")
-
 var isAdminUser = (token) => {
 return new Promise((resolve) => {
 
@@ -100,7 +87,7 @@ socket.on('getAuctionsBidder', (request) => {
         executeInPromise(isBidder, request, (result) => {
 
                 if (result) {
-                        usersRef.once("value", function (snapshot) {
+                        usersRef.on("value", function (snapshot) {
 
         
                                 var data = {};
@@ -118,13 +105,13 @@ socket.on('getAuctionsBidder', (request) => {
                                 });
                                 response.value = data;
                 
-                                if( request.isCalled !== null  &&  request.isCalled) {
-                                        response.value.isUpdate = false;
-                                }
+                                // if( request.isCalled !== null  &&  request.isCalled) {
+                                //         response.value.isUpdate = false;
+                                // }
                 
-                                else {
-                                        response.value.isUpdate = true;
-                                }
+                                // else {
+                                //         response.value.isUpdate = true;
+                                // }
                 
                                 response.status = true;
                                 console.log(data);
@@ -144,174 +131,199 @@ socket.on('getAuctionsBidder', (request) => {
        
         });
 
-        socket.on('getAuctionsAdmin', (request) => {
+socket.on('getAuctionsAdmin', (request) => {
 
-                var response = new CustomResponse();
-        
-                var usersRef = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE).orderByChild("edate");
-                
-                executeInPromise(isAdminUser, request, (result) => {
+        var response = new CustomResponse();
 
-                        if (result) {
-                                usersRef.once("value", function (snapshot) {
+        var usersRef = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE).orderByChild("edate");
+        var auctionSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code);
+
+        executeInPromise(isAdminUser, request, (result) => {
+
+                if (result) {
+
+                        auctionSubTable.once("value", function (snapshot) {
+
+                                var request = {};
+                                request.logs = [];
+                                var Aloggsdata = snapshot.val();
+                                var i = 0;
         
-                
-                                        var data = {};
-                                        data.time_stamp = timeStampHelper.getCurrentTimeStamp('unix');
-                                        data.auctions = [];
-                        
-                                        var auction_data = snapshot.val();
-                        
-                                        snapshot.forEach((child) => {
-                                                console.log(child.val());
-                                                var item = child.val();
-                                                item.pcode = child.key;
-                                                console.log(item);
-                                                data.auctions.push(item);
-                                        });
-                                        response.value = data;
-                        
-                                        if( request.isCalled !== null  &&  request.isCalled) {
-                                                response.value.isUpdate = false;
-                                        }
-                        
-                                        else {
-                                                response.value.isUpdate = true;
-                                        }
-                        
-                                        response.status = true;
-                                        console.log(data);
-                                        request.isCalled = false;
-                                        socket.emit('getAuctionsAdminCallback', response);
-                        
-                                }, function (errorObject) {
-                                        response.message = "Firebase fetch Error : " + errorObject.code;
-                                        socket.emit('getAuctionsAdminCallback', response);
-                                });
-                        
-                                } else {
-                                        response.message = "Error : Invaild / Un-Authorized User. Only Admin can access this area.";
-                                        socket.emit('unAuthorizedCallback', response);
+                                for (i in Aloggsdata) {
+                                        request.logs.push(Aloggsdata[i]);
                                 }
+                                response.value = request;
+                                console.log(response.value);
+                                
+                                response.status = true;
+                                socket.emit('bidlogForAdminCallBack', response)
+        
+                        }, function (errorObject) {
+                                response.message = "Firebase fetch Error : " + errorObject.code;
+                                socket.emit('bidlogForAdminCallBack', response);
                         });
-               
+
+                        
+                        usersRef.once("value", function (snapshot) {
+
+                        var data = {};
+                        data.time_stamp = timeStampHelper.getCurrentTimeStamp('unix');
+                        data.auctions = [];
+        
+                        var auction_data = snapshot.val();
+        
+                        snapshot.forEach((child) => {
+                                console.log(child.val());
+                                var item = child.val();
+                                item.pcode = child.key;
+                                console.log(item);
+                                data.auctions.push(item);
+                        });
+                        response.value = data;
+        
+                        if( request.isCalled !== null  &&  request.isCalled) {
+                                response.value.isUpdate = false;
+                        }
+        
+                        else {
+                                response.value.isUpdate = true;
+                        }
+        
+                        response.status = true;
+                        console.log(data);
+                        request.isCalled = false;
+                        socket.emit('getAuctionsAdminCallback', response);
+                
+                        }, function (errorObject) {
+                                response.message = "Firebase fetch Error : " + errorObject.code;
+                                socket.emit('getAuctionsAdminCallback', response);
+                        });
+                
+                        } else {
+                                response.message = "Error : Invaild / Un-Authorized User. Only Admin can access this area.";
+                                socket.emit('unAuthorizedCallback', response);
+                        }
                 });
-
-        socket.on('postBid', (request) => {
-
-
-                console.log("Bid Request " + JSON.stringify(request));
-
-                var response = new CustomResponse();
-                var currentDateandTime = timeStampHelper.getCurrentTimeStamp('unix');
-
-                executeInPromise(isBidder, request, (result) => {
-
-                if(result) {
-
-                        
-                        if (request.Bid_amt == 0) {
-                                response.msg = "error"
-                                response.message = 'Enter a bid value';
-                                socket.emit('postBidCallback', response);
-                        }
-                
-                        else if(request.Bid_amt == request.startBid) {
-                                response.msg = "error"
-                                response.message = 'Enter a bid value lesser than start bid';
-                                socket.emit('postBidCallback', response);
-                        }
-                        else if (request.Bid_amt > request.startBid) {
-                                response.msg = "error"
-                                response.message = 'Enter a bid value lesser than start bid';
-                                socket.emit('postBidCallback', response);
-                        }
-                
-                        else if (request.curbid != null) {
-                        if (request.Bid_amt > request.curbid) {
-                                response.msg = "error"
-                                response.message = 'Enter a bid value lesser than current bid';
-                                socket.emit('postBidCallback', response);
-                        }
-                
-                        else if(request.Bid_amt == request.curbid) {
-                                response.msg = "error"
-                                response.message = 'Enter a bid value lesser than current bid';
-                                socket.emit('postBidCallback', response);
-                        }
-                
-                        else {
-                                var addBidToSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code + '/' + currentDateandTime).update(
-                                        {
-                                                time_stamp: Number(currentDateandTime),
-                                                bid_amount: Number(request.Bid_amt),
-                                                user_id: request.user_id,
-                                        }, function(error) {
-                                                if(error) {
-                                                        response.message = "Firebase Write Error : " + error;
-                                                        socket.emit('postBidCallback', response);
-                                                }
-                                        } 
-                                );
         
-                                var addBidToMainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE + '/' + request.product_code).update({
-                                        currbid: Number(request.Bid_amt)
-                                }, function(error) {
-                                        if(error) {
-                                                response.message = "Firebase Write Error : " + error;
-                                                socket.emit('postBidCallback', response);
-                                        }
-                                } );
-                                response.status = true;
-                                response.msg = "success"
-                                response.message = 'Bid Posted Successfully';
-                                socket.emit('postBidCallback', response);
-                        
-                        }
-                      
-        
-                        }
+        });
+
+socket.on('postBid', (request) => {
+
+
+        console.log("Bid Request " + JSON.stringify(request));
+
+        var response = new CustomResponse();
+        var currentDateandTime = timeStampHelper.getCurrentTimeStamp('unix');
+
+        executeInPromise(isBidder, request, (result) => {
+
+        if(result) {
+
                 
-                        else {
-                                var addBidToSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code + '/' + currentDateandTime).update(
-                                        {
-                                                time_stamp: Number(currentDateandTime),
-                                                bid_amount: Number(request.Bid_amt),
-                                                user_id: request.user_id,
-                                        }, function(error) {
-                                                if(error) {
-                                                        response.message = "Firebase Write Error : " + error;
-                                                        socket.emit('postBidCallback', response);
-                                                }
-                                        } 
-                                );
-        
-                                var addBidToMainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE + '/' + request.product_code).update({
-                                        currbid: Number(request.Bid_amt)
-                                }, function(error) {
-                                        if(error) {
-                                                response.message = "Firebase Write Error : " + error;
-                                                socket.emit('postBidCallback', response);
-                                        }
-                                } );
-
-                                response.status = true;
-                                response.msg = "success"
-                                response.message = 'Bid Posted Successfully';
-                                socket.emit('postBidCallback', response);
-                
-                        }
-
-                        
-        
-                       
-                }else {
-
-                        response.message = "Error : Invaild / Un-Authorized User. Only Bidder can access this area.";
-                        socket.emit('unAuthorizedCallback', response);
+                if (request.Bid_amt == 0) {
+                        response.msg = "error"
+                        response.message = 'Enter a bid value';
+                        socket.emit('postBidCallback', response);
                 }
-            });
-        })
+        
+                else if(request.Bid_amt == request.startBid) {
+                        response.msg = "error"
+                        response.message = 'Enter a bid value lesser than start bid';
+                        socket.emit('postBidCallback', response);
+                }
+                else if (request.Bid_amt > request.startBid) {
+                        response.msg = "error"
+                        response.message = 'Enter a bid value lesser than start bid';
+                        socket.emit('postBidCallback', response);
+                }
+        
+                else if (request.curbid != 0) {
+                if (request.Bid_amt > request.curbid) {
+                        response.msg = "error"
+                        response.message = 'Enter a bid value lesser than current bid';
+                        socket.emit('postBidCallback', response);
+                }
+        
+                else if(request.Bid_amt == request.curbid) {
+                        response.msg = "error"
+                        response.message = 'Enter a bid value lesser than current bid';
+                        socket.emit('postBidCallback', response);
+                }
+        
+                else {
+                        var addBidToSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code + '/' + currentDateandTime).update(
+                                {
+                                        time_stamp: Number(currentDateandTime),
+                                        bid_amount: Number(request.Bid_amt),
+                                        user_id: request.user_id,
+                                }, function(error) {
+                                        if(error) {
+                                                response.message = "Firebase Write Error : " + error;
+                                                socket.emit('postBidCallback', response);
+                                        }
+                                } 
+                        );
+
+                        var addBidToMainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE + '/' + request.product_code).update({
+                                currbid: Number(request.Bid_amt),
+                                user_id: request.user_id
+                        }, function(error) {
+                                if(error) {
+                                        response.message = "Firebase Write Error : " + error;
+                                        socket.emit('postBidCallback', response);
+                                }
+                        } );
+                        response.status = true;
+                        response.msg = "success"
+                        response.message = 'Bid Posted Successfully';
+                        socket.emit('postBidCallback', response);
+                
+                }
+                
+
+                }
+        
+                else {
+                        var addBidToSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code + '/' + currentDateandTime).update(
+                                {
+                                        time_stamp: Number(currentDateandTime),
+                                        bid_amount: Number(request.Bid_amt),
+                                        user_id: request.user_id,
+                                }, function(error) {
+                                        if(error) {
+                                                response.message = "Firebase Write Error : " + error;
+                                                socket.emit('postBidCallback', response);
+                                        }
+                                } 
+                        );
+
+                        var addBidToMainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_MAIN_TABLE + '/' + request.product_code).update({
+                                currbid: Number(request.Bid_amt),
+                                user_id: request.user_id
+                        }, function(error) {
+                                if(error) {
+                                        response.message = "Firebase Write Error : " + error;
+                                        socket.emit('postBidCallback', response);
+                                }
+                        } );
+
+                        response.status = true;
+                        response.msg = "success"
+                        response.message = 'Bid Posted Successfully';
+                        socket.emit('postBidCallback', response);
+        
+                }
+
+                
+
+                
+        }else {
+
+                response.message = "Error : Invaild / Un-Authorized User. Only Bidder can access this area.";
+                socket.emit('unAuthorizedCallback', response);
+        }
+        });
+})
 
 socket.on('addNewAuction', (request) => {
 
@@ -340,7 +352,8 @@ socket.on('addNewAuction', (request) => {
                                                 sdate: request.startTime,
                                                 edate: request.endTime,
                                                 startbid: Number(request.startBid),
-                                                currbid: 0
+                                                currbid: 0,
+                                                user_id:''
                                         }, function(error) {
                                                 if(error) {
                                                         response.message = "Firebase Write Error : " + error;
@@ -363,133 +376,135 @@ socket.on('addNewAuction', (request) => {
 });
 
 
-        socket.on('addNewBidder', (request) => {
+socket.on('addNewBidder', (request) => {
 
-                var response = new CustomResponse();
+        var response = new CustomResponse();
 
-                
-                executeInPromise(isAdminUser, request, (result) => {
+        
+        executeInPromise(isAdminUser, request, (result) => {
 
-                        if (result) {
-                                // console.log(request);
-                                
-                                var Bidder = {
-                                        user_id: request.bidder_id,
-                                        user_email: request.bidder_email,
-                                        user_name: request.bidder_name,
-                                        user_access: "b",
-                                        user_password: "0192023a7bbd73250516f069df18b500"
-                                };
-                                
-                                if(request.bidder_id == 0 || request.bidder_email == 0 || request.bidder_name == 0) {
-                                       
-                                        console.log('bidder??');
-                                        response.msg = "error"
-                                        response.message = "All inputs are mandatory"
-
-                                        socket.emit('addNewBidderCallback', response);
-                                       }
-                                       else {
-                                               console.log('asdsadasd');
-                                               response.msg = "success"
-                                               response.message = "Bidder Added"
-                                                socket.emit('addNewBidderCallback', response);
-
-                                                addNewUser(Bidder);
-                                       }
-                                
-                
-                                response.status = true;
-                                
-                        } else {
-
-                                response.message = "Error : Invaild / Un-Authorized User. Only Admin can add auctions. ";
-                                socket.emit('unAuthorizedCallback', response);
-                        }
-
-                });
-                
-        });
-
-
-        socket.on('bidlogForBidder', (request) => {
-
-                var response = new CustomResponse();
-
-
-                executeInPromise(isBidder, request, (result) => {
-
-                        if (result) {
-
-                                var mainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code).orderByChild('user_id').equalTo(request.user_id);
-
-                                mainTable.once("value", function (snapshot) {
-
-                                        var logdata = {};
-                                        logdata.logs = [];
-
-                                        var loggsdata = snapshot.val();
-                                        var i = 0;
-
-                                        for (i in loggsdata) {
-                                                logdata.logs.push(loggsdata[i]);
-                                        }
-
-                                        response.value = logdata;
-                                        response.status = true;
-                                        console.log(response.value);
-                                        socket.emit('bidLogForBidderCallback', response);
-
-                                }, function (errorObject) {
-                                        response.message = "Firebase fetch Error : " + errorObject.code;
-                                        socket.emit('bidLogForBidderCallback', response);
-                                });
-                        } else {
-
-                                response.message = "Error : Invaild / Un-Authorized User. Only Bidder can access this area.";
-                                socket.emit('unAuthorizedCallback', response);
-                        }
-
-                });
-        });
-
-        socket.on('bidlogForAdmin', (request) => {
-                var response = new CustomResponse();
-
-                executeInPromise(isAdminUser, request, (result) => {
                 if (result) {
-
-                        console.log(request.product_code);
-
-                        var auctionSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code);
-
-                        auctionSubTable.once("value", function (snapshot) {
-
-                                var request = {};
-                                request.logs = [];
-                                var Aloggsdata = snapshot.val();
-                                var i = 0;
-
-                                for (i in Aloggsdata) {
-                                        request.logs.push(Aloggsdata[i]);
-                                }
-                                response.value = request;
-                                console.log(response.value);
+                        // console.log(request);
+                        
+                        var Bidder = {
+                                user_id: request.bidder_id,
+                                user_email: request.bidder_email,
+                                user_name: request.bidder_name,
+                                user_access: "b",
+                                user_password: "0192023a7bbd73250516f069df18b500"
+                        };
+                        
+                        if(request.bidder_id == 0 || request.bidder_email == 0 || request.bidder_name == 0) {
                                 
-                                response.status = true;
-                                socket.emit('bidlogForAdminCallBack', response)
+                                console.log('bidder??');
+                                response.msg = "error"
+                                response.message = "All inputs are mandatory"
 
-                        }, function (errorObject) {
-                                response.message = "Firebase fetch Error : " + errorObject.code;
-                                socket.emit('bidlogForAdminCallBack', response);
-                        });
+                                socket.emit('addNewBidderCallback', response);
+                                }
+                                else {
+                                        console.log('asdsadasd');
+                                        response.msg = "success"
+                                        response.status = true;
+                                        response.message = "Bidder Added"
+                                        socket.emit('addNewBidderCallback', response);
+
+                                        addNewUser(Bidder);
+                                }
+                        
                 } else {
-
-                        response.message = "Error : Invaild / Un-Authorized User. Only Admin User can access this area.";
+                        response.message = "Error : Invaild / Un-Authorized User. Only Admin can add auctions. ";
                         socket.emit('unAuthorizedCallback', response);
                 }
         });
-        })
+});
+
+
+socket.on('bidlogForBidder', (request) => {
+
+        var response = new CustomResponse();
+
+
+        executeInPromise(isBidder, request, (result) => {
+
+                if (result) {
+
+                        var mainTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code).orderByChild('user_id').equalTo(request.user_id);
+
+                        mainTable.once("value", function (snapshot) {
+
+                                var logdata = {};
+                                logdata.logs = [];
+
+                                var loggsdata = snapshot.val();
+                                var i = 0;
+
+                                for (i in loggsdata) {
+                                        logdata.logs.push(loggsdata[i]);
+                                }
+
+                                response.value = logdata;
+                                response.status = true;
+                                console.log(response.value);
+                                socket.emit('bidLogForBidderCallback', response);
+
+                        }, function (errorObject) {
+                                response.message = "Firebase fetch Error : " + errorObject.code;
+                                socket.emit('bidLogForBidderCallback', response);
+                        });
+                } else {
+
+                        response.message = "Error : Invaild / Un-Authorized User. Only Bidder can access this area.";
+                        socket.emit('unAuthorizedCallback', response);
+                }
+
+        });
+});
+
+socket.on('bidlogForAdmin', (request) => {
+        var response = new CustomResponse();
+
+        executeInPromise(isAdminUser, request, (result) => {
+        if (result) {
+
+                console.log(request.product_code);
+
+                var auctionSubTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code).orderByChild('bid_amount');
+                var auctionTable = fireBase.fireBaseConnection.database().ref(variables.KEY_AUCTION_SUB_TABLE + '/' + request.product_code);
+
+                auctionTable.orderByChild('bid_amount').limitToFirst(1).on("value" , function(snapshot) {
+                        console.log(snapshot.val());
+
+                }) 
+                        
+                
+                auctionSubTable.once("value", function (snapshot) {
+
+                        var request = {};
+                        request.logs = [];
+                        var Aloggsdata = snapshot.val();
+                        var i = 0;
+
+                        for (i in Aloggsdata) {
+                                request.logs.push(Aloggsdata[i]);
+                        }
+                        response.value = request;
+                        console.log(response.value);
+                        
+                        response.status = true;
+                        socket.emit('bidlogForAdminCallBack', response)
+
+                }, function (errorObject) {
+                        response.message = "Firebase fetch Error : " + errorObject.code;
+                        socket.emit('bidlogForAdminCallBack', response);
+                });
+        } else {
+
+                response.message = "Error : Invaild / Un-Authorized User. Only Admin User can access this area.";
+                socket.emit('unAuthorizedCallback', response);
+        }
+});
+})
 });
 
 
