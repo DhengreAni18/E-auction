@@ -193,32 +193,29 @@
         transports: ['websocket']
       });
 
-      var auctions_data = [];
+      var auctions_data = null;
+
+      var isAuctionTableCreated = false;
 
 
       socket.on('connect', () => {
-      //  console.log(socket.connected); // true
         socket.emit('getAuctionsAdmin',({isCalled : true , token : getLoggedUserDetails().token}));
 
-        // function showname() {
-        //   socket.emit('getAuctionsAdmin',({ product_code: $('#pcode_' + i).val() }));
-
-        // }
       });
 
       socket.on('getAuctionsAdminCallback', (response) => {
 
+        var fragment = document.createDocumentFragment();
+          var table = document.createElement("table");
+          table.id = 'productTableB';
 
         if (response.status) {
 
           auctions_data = response.value;
 
+          if(!isAuctionTableCreated) {
+            
           $('#productTableB tr').remove();
-
-          var fragment = document.createDocumentFragment();
-          var table = document.createElement("table");
-          table.id = 'productTableB';
-
 
           $.each(auctions_data.auctions, function (i, item) {
             var start_ts = moment.unix(auctions_data.time_stamp);
@@ -287,6 +284,12 @@
 
             updateData();
           }, 1000);
+
+          isAuctionTableCreated = true;
+        } 
+        else {
+      updateData();
+      }
         }
         else {
           alert(response.message);
@@ -303,7 +306,11 @@
         d = Math.floor(h / 24);
         h = h % 24;
 
-        var result = d +' days' + " " + h + ' hrs' + " " + m  + ' mins'+ " " + s + ' secs';
+        if(d<0 || h<0 || m<0 || s<0 ) {
+          var result = 'Auction Over!!';
+          return result;
+        }
+        var result = d +'d' + " " + h + 'h' + " " + m  + 'm'+ " " + s + 's';
         return result;
         
       }
