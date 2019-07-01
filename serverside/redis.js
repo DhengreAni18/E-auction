@@ -6,7 +6,8 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 var redis_client = bluebird.promisifyAll(redis.createClient({
     host: '127.0.0.1',
-    no_ready_check: true
+    no_ready_check: true,
+    auth_pass:'HighRush#@!1'
 }));
 
 

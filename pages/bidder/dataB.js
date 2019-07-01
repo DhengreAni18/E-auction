@@ -19,7 +19,13 @@ socket.on('getAuctionsBidderCallback', (response) => {
 
     auctions_data = response.value;
 
+
+
     if (!isAuctionTableCreated) {
+
+      $('#productTableB tr').remove();
+
+
 
       $('#productTableB tr').remove();
 
@@ -106,33 +112,11 @@ socket.on('getAuctionsBidderCallback', (response) => {
     }
 
   }
-
   else {
     alert(response.message);
   }
 
 });
-
-
-function dhm(ms) {
-  var d, h, m, s;
-  s = Math.floor(ms / 1000);
-  m = Math.floor(s / 60);
-  s = s % 60;
-  h = Math.floor(m / 60);
-  m = m % 60;
-  d = Math.floor(h / 24);
-  h = h % 24;
-
-  if(d<0 || h<0 || m<0 || s<0 ) {
-    var result = 'Auction Over!!';
-    return result;
-  }
-  
-  var result = d + 'd' + " " + h + 'h' + " " + m + 'm' + " " + s + 's';
-  return result;
-
-}
 
 function updateData() {
   $.each(auctions_data.auctions, function (i, item) {
@@ -172,7 +156,8 @@ socket.on('postBidCallback', (response) => {
   
   Swal.fire({
     type: response.msg,
-    title: response.message
+    title: response.message,
+    timer: 1500
   });
   if (response.status) {
     $('#bidamt_' + response.value.product_code).val('');
@@ -180,8 +165,11 @@ socket.on('postBidCallback', (response) => {
 });
 
 socket.on('unAuthorizedCallback', (response) => {
-  Swal.fire(
-    response.message
+  Swal.fire({
+    title:response.message,
+    position: 'top-end',
+    timer: 1500
+  }
   )
 });
 
@@ -232,8 +220,11 @@ document.getElementById('logTable').appendChild(fragmentt);
 
 
 socket.on('unAuthorizedCallback', (response) => {
-  Swal.fire(
-    response.message
+  Swal.fire({
+    title:response.message,
+    position: 'top-end',
+    timer: 1500
+  }
   )
 });
 

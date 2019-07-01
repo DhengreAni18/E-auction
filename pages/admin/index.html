@@ -3,6 +3,8 @@
 <head>
   <title>Welcome to Auction</title>
 
+  <link rel="stylesheet" href="/styles/style.css">
+
   <!-- Firebase CDNs -->
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
@@ -11,15 +13,17 @@
 
   <!-- Firebase CDNs END -->
 
-  <link rel="stylesheet" href="/styles/style.css">
-
   <!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
-
+  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
@@ -29,8 +33,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+
 
   <!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
@@ -50,8 +53,10 @@
       <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0"  data-toggle="modal" data-target="#addpro">Add Product</button>
-          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0"  data-toggle="modal" data-target="#addbidder">Add Bidder</button>
+          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal" data-target="#addpro">Add
+            Product</button>
+          <button id="btnn" class="btn btn-outline-primary my-2 my-sm-0" data-toggle="modal"
+            data-target="#addbidder">Add Bidder</button>
 
         </li>
 
@@ -61,45 +66,47 @@
       <form class="form-inline my-2 my-lg-0">
         <a class="nav-link disabled" href="#" id="userName"> </a>
         <button class="btn btn-outline-danger my-2 my-sm-0" type="button" onclick="logout();">Logout</button>
-        
+
       </form>
     </div>
   </nav>
 
+</div>
+</div>
 
-   <!-- Modal -->
-   <div class="modal fade" id="addpro" role="dialog">
+  <!-- Modal -->
+  <div class="modal fade" id="addpro" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">Add Product Details</h4>
+          <h4 class="modal-title">Add Product Details</h4>
 
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
 
 
-          <form>
-              
+          <form id="add_product_form">
+
             <input type="text" class="form-control" placeholder="Product ID" id="pcode" required /><br>
             <input type="text" class="form-control" placeholder="Name" id="naam" required /><br>
             <input type="text" class="form-control" placeholder="Quantity" id="quan" required /><br>
             <input type="text" class="form-control" placeholder="Description" id="deescription" required /><br>
             <input type="text" class="form-control" placeholder="Start Bid" id="sttartbid" required /> <br> <br>
-            Start Date & Time : <input type="datetime" class="form-control"  placeholder="YYYY/MM/DD H:mm" id="sdatetime" required /><br>
-            End Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="edatetime" required />
+            Start Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="sdatetime"
+            required />
+          <br>
+            End Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="edatetime"
+              required />
             <br> <br>
-  
-            
-
 
         </div>
         <div class="modal-footer">
-            <input class="btn btn-primary" type="button" value="Submit"  onclick="AddProduct();"></input>
+          <input class="btn btn-primary" type="button" value="Submit" onclick="AddProduct();"></input>
           </form>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="document.getElementById('add_product_form').reset()">Close</button>
         </div>
       </div>
 
@@ -108,44 +115,40 @@
 
   <!-- Modal -->
   <div class="modal fade" id="addbidder" role="dialog">
-      <div class="modal-dialog">
-  
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Add Bidder Details</h4>
-  
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-  
-  
-            <form>
-                
-              <input type="text" class="form-control" placeholder="User ID" id="userID" required /><br>
-              <input type="email" class="form-control" placeholder="Email ID" id="emailID" required /><br>
-              <input type="text" class="form-control" placeholder="Username" id="user_Name" required /><br>
-              <input type="hidden" required id="access" value="b" />
-              <input type="hidden" required id="user_password" value="0192023a7bbd73250516f069df18b500" />
+    <div class="modal-dialog">
 
-              <br>
-             
-    
-              
-  
-          </div>
-          <div class="modal-footer">
-              <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();"></input>
-            </form>
-  
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Bidder Details</h4>
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-  
+        <div class="modal-body">
+
+
+          <form id="add_bidder_form">
+
+            <input type="text" class="form-control" placeholder="User ID" id="userID" required /><br>
+            <input type="email" class="form-control" placeholder="Email ID" id="emailID" required /><br>
+            <input type="text" class="form-control" placeholder="Username" id="user_Name" required /><br>
+            <!-- <input type="hidden" required id="access" value="b" />
+            <input type="hidden" required id="user_password" value="0192023a7bbd73250516f069df18b500" /> -->
+
+            <br>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();" />
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="document.getElementById('add_bidder_form').reset()">Close</button>
+        </div>
       </div>
+
     </div>
-  
-  
+  </div>
+
+
 
   <div id="auctions">
 
@@ -187,35 +190,47 @@
 
   <script>
 
-    
-
-      var socket = io.connect('http://localhost:12251', {
-        transports: ['websocket']
-      });
-
-      var auctions_data = null;
-
-      var isAuctionTableCreated = false;
 
 
-      socket.on('connect', () => {
-        socket.emit('getAuctionsAdmin',({isCalled : true , token : getLoggedUserDetails().token}));
+    var socket = io.connect('http://localhost:12251', {
+      transports: ['websocket']
+    });
 
-      });
+    var auctions_data = [];
+    var data_added = false;
 
-      socket.on('getAuctionsAdminCallback', (response) => {
+    socket.on('connect', () => {
+      //  console.log(socket.connected); // true
+      socket.emit('getAuctionsAdmin', ({ isCalled: true, token: getLoggedUserDetails().token }));
 
-        var fragment = document.createDocumentFragment();
+    });
+
+    socket.on('getAuctionsAdminCallback', (response) => {
+
+
+      if (response.status) {
+
+        auctions_data = response.value;
+
+        if (!data_added) {
+
+          $('#productTableB tr').remove();
+
+          var fragment = document.createDocumentFragment();
           var table = document.createElement("table");
           table.id = 'productTableB';
+          thead = document.createElement("thead");
+          thead.innerHTML = '<tr>' +
+            '<th>Remaining Time</th>' +
+            '<th>Products</th>' +
+            '<th>Description</th>' +
+            '<th>Start-Bid</th>' +
+            '<th>Current-Bid</th>' +
+            '<th>Bidder ID</th>' +
+            '</tr>';
 
-        if (response.status) {
+          table.appendChild(thead);
 
-          auctions_data = response.value;
-
-          if(!isAuctionTableCreated) {
-            
-          $('#productTableB tr').remove();
 
           $.each(auctions_data.auctions, function (i, item) {
             var start_ts = moment.unix(auctions_data.time_stamp);
@@ -230,8 +245,8 @@
             var descr = item.description;
             var bidderID = item.user_id;
 
+            
 
-            thead = document.createElement("thead");
             tr = document.createElement("tr");
             td1 = document.createElement("td");
             td2 = document.createElement("td");
@@ -241,21 +256,11 @@
             td5 = document.createElement("td");
             td6 = document.createElement("td");
 
-
-            thead.innerHTML = '<tr>' +
-              '<th>Remaining Time</th>' +
-              '<th>Products</th>' +
-              '<th>Description</th>' +
-              '<th>Start-Bid</th>' +
-              '<th>Current-Bid</th>' +
-              '<th>Bidder name</th>' +
-              '</tr>';
-
             td1.innerHTML = '<span class="badge badge-danger"  id="time_' + i + '">' + remainT + '</span>';
-            space.innerHTML = '(' + pcodee + ')' + proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + i + '" type="button" data-toggle="modal" data-target="#myModal" onclick = "showAlog(' + i + ');">' + 'Bid Log' + '</button>';
+            space.innerHTML = proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + pcodee + '" type="button" onclick = "showAlog(' + pcodee + ');">' + 'Bid Log' + '</button>';
             td5.innerHTML = descr;
-            td3.innerHTML = stBid;
-            td2.innerHTML = '<input type="hidden" required id="pcode_' + i + '" value="' + pcodee + '" />' + crBid;
+            td3.innerHTML = stBid
+            td2.innerHTML = '<span id = "cuurbid_' + pcodee + '">' + crBid + '</span><input type="hidden" id="pcode_' + pcodee + '" value="' + pcodee + '"/>';
             td6.innerHTML = bidderID;
 
             tr.appendChild(td1);
@@ -264,15 +269,10 @@
             tr.appendChild(td3);
             tr.appendChild(td2);
             tr.appendChild(td6);
-
-
             table.appendChild(tr);
-            table.className = 'table table-striped';
-
           });
 
-          table.appendChild(thead);
-
+          table.className = 'table table-striped';
           fragment.appendChild(table);
           document.getElementById('auctions').appendChild(fragment);
 
@@ -285,167 +285,156 @@
             updateData();
           }, 1000);
 
-          isAuctionTableCreated = true;
-        } 
+          data_added = true;
+        }
         else {
-      updateData();
+          updateData();
+        }
       }
-        }
-        else {
-          alert(response.message);
-        }
+      else {
+        alert(response.message);
+      }
+    });
+
+
+
+    function updateData() {
+      $.each(auctions_data.auctions, function (i, item) {
+
+
+        var start_ts = moment.unix(auctions_data.time_stamp);
+        var end_ts = moment(item.edate, "YYYY/MM/DD H:mm:ss");
+        var duration = moment.duration(end_ts.diff(start_ts));
+        var remainT = dhm(duration.asMilliseconds());
+        var currentBid = item.currbid;
+        $("#cuurbid_" + item.pcode).html(currentBid);
+        $("#time_" + i).html(remainT);
       });
+    }
 
-      function dhm(ms) {
-        var d, h, m, s;
-        s = Math.floor(ms / 1000);
-        m = Math.floor(s / 60);
-        s = s % 60;
-        h = Math.floor(m / 60);
-        m = m % 60;
-        d = Math.floor(h / 24);
-        h = h % 24;
 
-        if(d<0 || h<0 || m<0 || s<0 ) {
-          var result = 'Auction Over!!';
-          return result;
-        }
-        var result = d +'d' + " " + h + 'h' + " " + m  + 'm'+ " " + s + 's';
-        return result;
-        
-      }
+    function AddBidder() {
+      var userID = document.getElementById('userID').value;
+      var emailID = document.getElementById('emailID').value;
+      var userNAME = document.getElementById('user_Name').value;
 
-      function updateData() {
-        $.each(auctions_data.auctions, function (i, item) {
-
-          
-          var start_ts = moment.unix(auctions_data.time_stamp);
-          var end_ts = moment(item.edate, "YYYY/MM/DD H:mm:ss");
-          var duration = moment.duration(end_ts.diff(start_ts));
-          var remainT = dhm(duration.asMilliseconds());
-
-          $("#time_" + i).html(remainT);
+      socket.emit('addNewBidder',
+        {
+          bidder_id: userID,
+          bidder_email: emailID,
+          bidder_name: userNAME,
+          token: getLoggedUserDetails().token
         });
+
+    }
+
+    socket.on('addNewBidderCallback', (response) => {
+      Swal.fire({
+        type: response.msg,
+        title: response.message,
+        timer: 1500
+      })
+    });
+
+    socket.on('unAuthorizedCallback', (response) => {
+      Swal.fire({
+       title: response.message ,
+       position: 'top-end',
+       timer: 1500
       }
+      )
+    });
+
+    function AddProduct() {
+
+      var quantity = document.getElementById('quan').value;
+      var startdate = document.getElementById('sdatetime').value;
+      var enddate = document.getElementById('edatetime').value;
+      var productID = document.getElementById('pcode').value;
+      var productName = document.getElementById('naam').value;
+      var pro_desc = document.getElementById('deescription').value;
+      var start_Bid = document.getElementById('sttartbid').value;
 
 
-      function AddBidder() {
-        var userID = document.getElementById('userID').value;
-        var emailID = document.getElementById('emailID').value;
-        var userNAME = document.getElementById('user_Name').value;
-        
-        socket.emit('addNewBidder',
-          {
-            bidder_id: userID,
-            bidder_email: emailID,
-            bidder_name: userNAME,
-            token:getLoggedUserDetails().token 
-          });
-      }
-
-      socket.on('addNewBidderCallback', (response) =>{
-        Swal.fire({
-          type: response.msg,
-          title: response.message
+      socket.emit('addNewAuction',
+        {
+          productCode: productID,
+          productName: productName,
+          Quantity: quantity,
+          Description: pro_desc,
+          startBid: start_Bid,
+          startTime: startdate,
+          endTime: enddate,
+          token: getLoggedUserDetails().token
         })
+
+        document.getElementById('add_product_form').reset();
+
+    }
+
+    socket.on('addNewAuctionCallback', (response) => {
+      Swal.fire({
+        type: response.msg,
+        title: response.message,
+        timer: 1500
+
+      })
+    });
+
+    fragmentt = document.createDocumentFragment();
+    tablee = document.createElement("table");
+
+    function showAlog(i) {
+      $('#loggTTable tr').remove();
+
+      socket.emit('bidlogForAdmin', { product_code: $('#pcode_' + i).val(), name: getLoggedUserDetails().user_name, token: getLoggedUserDetails().token });
+
+    }
+
+    socket.on('bidlogForAdminCallBack', (response) => {
+
+      postAlog_data = response;
+      $('#loggTTable tr').remove();
+
+      $.each(postAlog_data.value.logs, (i, item) => {
+
+        var Bidder = item.user_id;
+        var BidAmt = item.bid_amount;
+        var tstamp = item.time_stamp;
+        var timeStamp = moment.unix(tstamp).format("MM/DD/YYYY H:mm")
+
+        trow = document.createElement("tr");
+        td11 = document.createElement("td");
+        td22 = document.createElement("td");
+        td33 = document.createElement("td");
+
+        td11.innerHTML = timeStamp;
+        td33.innerHTML = Bidder;
+        td22.innerHTML = BidAmt;
+
+        trow.appendChild(td11);
+        trow.appendChild(td33);
+        trow.appendChild(td22);
+
+        tablee.appendChild(trow);
+
+        tablee.className = 'table table-striped';
+
+        tablee.id = 'loggTTable';
       });
-
-      socket.on('unAuthorizedCallback', (response) =>{
-        Swal.fire(
-          response.message
-        )
-      });
-
-      function AddProduct() {
-
-        var quantity = document.getElementById('quan').value;
-        var startdate = document.getElementById('sdatetime').value;
-        var enddate = document.getElementById('edatetime').value;
-        var productID = document.getElementById('pcode').value;
-        var productName = document.getElementById('naam').value;
-        var pro_desc = document.getElementById('deescription').value;
-        var start_Bid = document.getElementById('sttartbid').value;
-
-       
-        socket.emit('addNewAuction',
-          {
-            productCode: productID,
-            productName: productName,
-            Quantity: quantity,
-            Description: pro_desc,
-            startBid: start_Bid,
-            startTime: startdate,
-            endTime: enddate,
-            token:getLoggedUserDetails().token 
-          })
-      }
-
-      socket.on('addNewAuctionCallback', (response) =>{
-        Swal.fire({
-          type: response.msg,
-          title: response.message
-        })
-      });
-
-      socket.on('unAuthorizedCallback', (response) =>{
-        Swal.fire(
-          response.message
-        )
-      });
-
-      fragmentt = document.createDocumentFragment();
-      tablee = document.createElement("table");
-
-      function showAlog(i) {
-        $('#loggTTable tr').remove();
-
-        socket.emit('bidlogForAdmin', { product_code: $('#pcode_' + i).val(), name: getLoggedUserDetails().user_name,  token:getLoggedUserDetails().token })
-
-        socket.on('bidlogForAdminCallBack', (response) => {
-
-          postAlog_data = response;
-          $('#loggTTable tr').remove();
-
-          $.each(postAlog_data.value.logs, (i, item) => {
-
-            var Bidder = item.user_id;
-            var BidAmt = item.bid_amount;
-            var tstamp = item.time_stamp;
-            var timeStamp = moment.unix(tstamp).format("MM/DD/YYYY H:mm")
-
-            trow = document.createElement("tr");
-            td11 = document.createElement("td");
-            td22 = document.createElement("td");
-            td33 = document.createElement("td");
-
-            td11.innerHTML = timeStamp;
-            td33.innerHTML = Bidder;
-            td22.innerHTML = BidAmt;
-
-            trow.appendChild(td11);
-            trow.appendChild(td33);
-            trow.appendChild(td22);
-
-            tablee.appendChild(trow);
-
-            tablee.className = 'table table-striped';
-
-            tablee.id = 'loggTTable';
-
-          })
-
-        })
-      };
-
       fragmentt.appendChild(tablee);
       document.getElementById('logTable').appendChild(fragmentt);
+      $("#myModal").modal('show');
+
+    });
 
 
-      window.addEventListener("beforeunload", function () {
-        console.log("Close web socket");
-        socket.close();
-      });
-    
+
+    window.addEventListener("beforeunload", function () {
+      console.log("Close web socket");
+      socket.close();
+    });
+
 
   </script>
 
