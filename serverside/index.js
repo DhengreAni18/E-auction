@@ -17,6 +17,7 @@ server.listen(variables.SERVER_PORT);
 console.log("on port" + variables.SERVER_PORT);
 console.log("Server Running");
 
+var connections = [];
 
 var timeStampHelper = new helper.TimeStampHelper();
 
@@ -73,6 +74,22 @@ isAdminAdded();
 
 io.on('connect', (socket) => {
         console.log("Client Connected");
+
+        console.log(socket.id);
+
+        //console.log(socket.handshake.query.token);
+
+
+        executeInPromise(isAdminUser, { token: socket.handshake.query.token }, (result) => {
+
+                if (result) {
+                        connections.push({ token: socket.handshake.query.token, connection_id: socket.id });
+
+                        //console.log(JSON.stringify({ token: socket.handshake.query.token, connection_id: socket.id }));
+                        console.log(connections.length);
+                }
+
+        });
 
         socket.on('authenticateUser', (data) => {
                 authenticateUser(data, socket);
@@ -144,7 +161,7 @@ io.on('connect', (socket) => {
 
                                         var auction_data = snapshot.val();
 
-                                        snapshot.forEach((child) => {                                        
+                                        snapshot.forEach((child) => {
                                                 var item = child.val();
                                                 item.pcode = child.key;
                                                 item.user_name = getUserDetails(item.user_id);
@@ -152,7 +169,7 @@ io.on('connect', (socket) => {
                                         });
                                         response.value = data;
                                         console.log(data);
-                                        
+
                                         response.status = true;
 
                                         socket.emit('getAuctionsAdminCallback', response);
@@ -174,13 +191,20 @@ io.on('connect', (socket) => {
         });
 
 
-        socket.on('typing' , function(data) {
-                if(data) {
-                        socket.emit('typing_callback',data);
-                        console.log(data);                             
+        socket.on('typing', function (data) {
+
+                console.log("From typing");
+
+                if (data) {
+
+                        for (i in connections) {
+                                console.log(connections[i]);
+                                io.to(connections[i].connection_id).emit('typing_callback', data);
+                        };        
                 }
-                
+
         });
+
 
         socket.on('postBid', (request) => {
 
@@ -296,7 +320,7 @@ io.on('connect', (socket) => {
                                         socket.emit('addNewAuctionCallback', response);
                                 }
 
-                                if(!isNaN(request.productCode)) {
+                                if (!isNaN(request.productCode)) {
                                         response.msg = "error"
                                         response.message = "Product ID must be a number"
                                         socket.emit('addNewAuctionCallback', response);
@@ -368,14 +392,14 @@ io.on('connect', (socket) => {
                                         return;
                                 }
 
-                                if(!emailRegex.test(request.bidder_email)) {
+                                if (!emailRegex.test(request.bidder_email)) {
                                         console.log('asdasd');
                                         response.msg = "error"
                                         response.message = "Enter correct email ID"
 
                                         socket.emit('addNewBidderCallback', response);
                                         return;
-                                        
+
                                 }
 
                                 else {
@@ -636,7 +660,7 @@ function authenticateUser(credential, socket) {
                                                 console.log("Reply TOKEN: " + reply);
                                                 socket.emit("authResponse", resp);
                                                 return;
-                                                
+
                                         });
                                 }
                         }
@@ -666,7 +690,7 @@ function getUserDetails(user_id) {
 
                         console.log(JSON.stringify(result))
 
-                        if (result[1] == null) {                                
+                        if (result[1] == null) {
                                 resolve("");
                         }
                         else {
