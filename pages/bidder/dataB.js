@@ -19,17 +19,8 @@ socket.on('getAuctionsBidderCallback', (response) => {
 
     auctions_data = response.value;
 
-
-
     if (!isAuctionTableCreated) {
-
       $('#productTableB tr').remove();
-
-
-
-      $('#productTableB tr').remove();
-
-
       thead = document.createElement("thead");
 
       thead.innerHTML = '<tr>' +
@@ -44,8 +35,6 @@ socket.on('getAuctionsBidderCallback', (response) => {
       table.appendChild(thead);
 
       $.each(auctions_data.auctions, function (i, item) {
-
-
         var start_ts = moment.unix(auctions_data.time_stamp);
         var end_ts = moment(item.edate, "YYYY/MM/DD H:mm:ss");
         var duration = moment.duration(end_ts.diff(start_ts));
@@ -59,7 +48,6 @@ socket.on('getAuctionsBidderCallback', (response) => {
 
         $('#productTableB tr').remove();
 
-
         tr = document.createElement("tr");
         td1 = document.createElement("td");
         td2 = document.createElement("td");
@@ -68,14 +56,12 @@ socket.on('getAuctionsBidderCallback', (response) => {
         td4 = document.createElement("td");
         td5 = document.createElement("td");
 
-
-
         td1.innerHTML = '<span class="badge badge-danger"  id="time_' + pcodee + '">' + remainT + '</span>';
         space.innerHTML = proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm  bidbtnn" id="bidlog_' + pcodee + '" type="button" data-toggle="modal" data-target="#myModal" onclick = "showlog(' + pcodee + ');">' + 'Bid Log' + '</button>';
         td5.innerHTML = descr;
         td3.innerHTML = stBid;
         td2.innerHTML = '<span id = "cuurbid_' + pcodee + '">' + crBid + '</span>';
-        td4.innerHTML = '<input type="hidden" required id="pcode_' + pcodee + '" value="' + pcodee + '" />' + '<input placeholder="Bid amount" class="bid_input" id="bidamt_' + pcodee + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid(' + pcodee + ');"  >' + 'Place Bid' + '</button>';
+        td4.innerHTML = '<input type="hidden" required id="pcode_' + pcodee + '" value="' + pcodee + '" />' + '<input placeholder="Bid amount" data-pcode = "' + pcodee + '" class="bid_input" id="bidamt_' + pcodee + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid(' + pcodee + ');"  >' + 'Place Bid' + '</button>';
 
         tr.appendChild(td1);
         tr.appendChild(space);
@@ -84,12 +70,10 @@ socket.on('getAuctionsBidderCallback', (response) => {
         tr.appendChild(td2);
         tr.appendChild(td4);
 
-        td3.id = "stbid_" + i;
-        // td2.id = "crbid_" + i;
+        td3.id = "stbid_" + pcodee;
 
         table.appendChild(tr);
         table.className = 'table table-striped';
-
       });
 
       fragment.appendChild(table);
@@ -105,6 +89,15 @@ socket.on('getAuctionsBidderCallback', (response) => {
         updateData();
       }, 1000);
 
+
+      $('.bid_input').keydown(function(e){
+        console.log('happening..');
+        
+            var pcode = $(this).attr("data-pcode");
+              socket.emit('typing', {user_id:getLoggedUserDetails().user_id , pcode:pcode});
+         console.log(pcode);
+         
+      });
       isAuctionTableCreated = true;
     }
     else {
@@ -132,8 +125,6 @@ function updateData() {
     $("#time_" + item.pcode).html(remainT);
   });
 }
-
-
 
 function submitBid(i) {
   var bidamount = $('#bidamt_' + i).val();
@@ -173,18 +164,13 @@ socket.on('unAuthorizedCallback', (response) => {
   )
 });
 
- 
-
 fragmentt = document.createDocumentFragment();
 tablee = document.createElement("table");
 
 function showlog(i) {
   $('#loggTTable tr').remove();
-
   socket.emit('bidlogForBidder', { product_code: $('#pcode_' + i).val(), user_id: getLoggedUserDetails().user_id, token: getLoggedUserDetails().token })
 
-       
-      
   socket.on('bidLogForBidderCallback', (response) => {
 
     postlog_data = response;
@@ -231,42 +217,13 @@ socket.on('unAuthorizedCallback', (response) => {
   )
 });
 
-var timeout;
-
-function timeoutFunction() {
-    typing = false;
-    socket.emit("typing", false);
-}
 
 
 
-$(document).ready(function(){
-  $('.bid_input').keyup(function() {
-    $(".bid_input").keydown(function(){
-       typing = true;
-      $(".bid_input").css("background-color", "yellow");
-      console.log('happening');
-      socket.emit('typing', getLoggedUserDetails().user_id);
-    clearTimeout(timeout);
-    timeout = setTimeout(timeoutFunction, 2000);
 
-    });
-    $(".bid_input").keyup(function(){
-          typing = true;
-      socket.emit('typing', getLoggedUserDetails().user_id);
-      console.log('happening..');
-      $(".bid_input").css("background-color", "pink");
-       clearTimeout(timeout);
-    timeout = setTimeout(timeoutFunction, 2000);
-    });
-    
-    
-    
-    // typing = true;
-    // socket.emit('typing', getLoggedUserDetails().user_id);
-    // clearTimeout(timeout);
-    // timeout = setTimeout(timeoutFunction, 2000);
-});
-});
+
+
+
+
 
 

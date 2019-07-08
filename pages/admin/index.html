@@ -14,13 +14,13 @@
   <!-- Firebase CDNs END -->
 
   <!-- Bootstrap , jQuery , SocketIO & Momentjs CDNs -->
-  
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
-    
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
@@ -68,8 +68,8 @@
     </div>
   </nav>
 
-</div>
-</div>
+  </div>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="addpro" role="dialog">
@@ -93,8 +93,8 @@
             <input type="text" class="form-control" placeholder="Description" id="deescription" required /><br>
             <input type="text" class="form-control" placeholder="Start Bid" id="sttartbid" required /> <br> <br>
             Start Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="sdatetime"
-            required />
-          <br>
+              required />
+            <br>
             End Date & Time : <input type="datetime" class="form-control" placeholder="YYYY/MM/DD H:mm" id="edatetime"
               required />
             <br> <br>
@@ -103,7 +103,8 @@
         <div class="modal-footer">
           <input class="btn btn-primary" type="button" value="Submit" onclick="AddProduct();"></input>
           </form>
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="document.getElementById('add_product_form').reset()">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"
+            onclick="document.getElementById('add_product_form').reset()">Close</button>
         </div>
       </div>
 
@@ -138,15 +139,13 @@
         </div>
         <div class="modal-footer">
           <input class="btn btn-primary" type="button" value="Add" onclick="AddBidder();" />
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="document.getElementById('add_bidder_form').reset()">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"
+            onclick="document.getElementById('add_bidder_form').reset()">Close</button>
         </div>
       </div>
 
     </div>
   </div>
-
-  <div id="aaaa">..</div>
-
 
   <div id="auctions">
 
@@ -184,14 +183,13 @@
   <!-- Included Scripts -->
 
   <script src="../../scripts/script.js"></script>
-
-
   <script>
 
-
-
     var socket = io.connect('http://localhost:12251', {
-      transports: ['websocket']
+      transports: ['websocket'],
+      query: {
+        token: getLoggedUserDetails().token
+      }
     });
 
     var auctions_data = [];
@@ -243,7 +241,7 @@
             var descr = item.description;
             var bidderID = item.user_id;
 
-            
+
 
             tr = document.createElement("tr");
             td1 = document.createElement("td");
@@ -255,7 +253,7 @@
             td6 = document.createElement("td");
 
             td1.innerHTML = '<span class="badge badge-danger"  id="time_' + i + '">' + remainT + '</span>';
-            space.innerHTML = '<div>' +proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + pcodee + '" type="button" onclick = "showAlog(' + pcodee + ');">' + 'Bid Log' + '</button>' + '</div>' + '<div class="text-muted" id="bidderStatus_' + pcodee + '">' + '...' + '</div>';
+            space.innerHTML = '<div>' + proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + pcodee + '" type="button" onclick = "showAlog(' + pcodee + ');">' + 'Bid Log' + '</button>' + '</div>' +'<div>'+ 'Active: ' +'<span class="text-muted" id="bidderStatus_' + pcodee + '">' + '</span>' + '</div>';
             td5.innerHTML = descr;
             td3.innerHTML = stBid
             td2.innerHTML = '<span id = "cuurbid_' + pcodee + '">' + crBid + '</span><input type="hidden" id="pcode_' + pcodee + '" value="' + pcodee + '"/>';
@@ -293,9 +291,6 @@
         alert(response.message);
       }
     });
-
-  
-
 
     function updateData() {
       $.each(auctions_data.auctions, function (i, item) {
@@ -337,9 +332,9 @@
 
     socket.on('unAuthorizedCallback', (response) => {
       Swal.fire({
-       title: response.message ,
-       position: 'top-end',
-       timer: 1500
+        title: response.message,
+        position: 'top-end',
+        timer: 1500
       }
       )
     });
@@ -369,7 +364,7 @@
           token: getLoggedUserDetails().token
         })
 
-        document.getElementById('add_product_form').reset();
+      document.getElementById('add_product_form').reset();
 
     }
 
@@ -382,17 +377,13 @@
       })
     });
 
-   
-
     fragmentt = document.createDocumentFragment();
     tablee = document.createElement("table");
 
     function showAlog(i) {
       $('#loggTTable tr').remove();
-
       socket.emit('bidlogForAdmin', { product_code: $('#pcode_' + i).val(), name: getLoggedUserDetails().user_name, token: getLoggedUserDetails().token });
-      
-      
+
     }
 
     socket.on('bidlogForAdminCallBack', (response) => {
@@ -433,32 +424,63 @@
     });
 
 
-    var status_field = document.getElementById("aaaa");
-           
-  
-      socket.on('typing_callback' , function(data) {
-              alert('asd');
-              if(data) {
-                console.log('asd');
-                status_field.innerHTML = 'asassdasd'
+    var activeUsers = [];
+      socket.on('typing_callback', function (data) {
 
-                status_field.innerHTML = '<p><em>' + data + ' is typing...</em></p>'
+        if(activeUsers.length > 0) {
+        for (i in activeUsers) {
+          if(!(activeUsers[i].user_id == data.user_id)) {
+            activeUsers.push(data);
+            bidderStatus();
+            return;
+          }
+          else {
+            activeUsers[i].pcode = data.pcode;
+          }
+
+          }}
+          else {
+            activeUsers.push(data);
+            bidderStatus();
+          }
+        
+            console.log(activeUsers);
+
+            setInterval(clearBidder , 2000);
+
+            function clearBidder() {
+              activeUsers = [];
+              console.log('clear array');
+              bidderStatus();
+            }
+      
+    });    
+
+              function bidderStatus() {
+
+          $.each(activeUsers, function (i, data) {
+            var status_field = document.getElementById("bidderStatus_" + data.pcode);
+            if (data) {
+              if(status_field.innerText == '') {
+                status_field.innerText =  data.user_id ;
               }
-              
+              else if(status_field.innerText == data.user_id) {
+                $("#bidderStatus_" + data.pcode).append('');
+              }
               else {
-                status_field.innerHTML = 'asd';
+                $("#bidderStatus_" + data.pcode).append( ' ,'+ data.user_id );
               }
-            });
-
-
-   
+            }
+            else {
+              status_field.innerHTML = '';
+            }
+          });
+          }
 
     window.addEventListener("beforeunload", function () {
       console.log("Close web socket");
       socket.close();
     });
-
-    
 
   </script>
 
