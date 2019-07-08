@@ -4,7 +4,7 @@
 
 
 ##
-:arrow_forward:  Installation
+:arrow_forward:  __*Installation*__
 
 @E-auction/serverside/ to install node dependencies :
 
