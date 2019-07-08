@@ -39,7 +39,7 @@ npm install
 
 2. __Current bid__ : Current bid price is updated as soon as any bidder posts its bids, it gives bidder to post bid so thathey get through.
 
-3.__Bid log__ : Bid log shows into the modal in which previous bids of that particular user shows with the timestamps.
+3. __Bid log__ : Bid log shows into the modal in which previous bids of that particular user shows with the timestamps.
 
 
 :star: *__Features for Admin__* : 
