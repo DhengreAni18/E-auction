@@ -67,7 +67,3 @@ function pad(n, width, z) {
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
-
-$('#datetimepicker1').datetimepicker({
-  format: 'YYYY/MM/DD HH:mm'
-});

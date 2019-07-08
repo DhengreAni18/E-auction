@@ -75,7 +75,7 @@ socket.on('getAuctionsBidderCallback', (response) => {
         td5.innerHTML = descr;
         td3.innerHTML = stBid;
         td2.innerHTML = '<span id = "cuurbid_' + pcodee + '">' + crBid + '</span>';
-        td4.innerHTML = '<input type="hidden" required id="pcode_' + pcodee + '" value="' + pcodee + '" />' + '<input placeholder="Bid amount" id="bidamt_' + pcodee + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid(' + pcodee + ');"  >' + 'Place Bid' + '</button>';
+        td4.innerHTML = '<input type="hidden" required id="pcode_' + pcodee + '" value="' + pcodee + '" />' + '<input placeholder="Bid amount" class="bid_input" id="bidamt_' + pcodee + '" style="width:120px; , padding-left:50px;"  type="text">' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn-primary"  onclick = "submitBid(' + pcodee + ');"  >' + 'Place Bid' + '</button>';
 
         tr.appendChild(td1);
         tr.appendChild(space);
@@ -173,6 +173,7 @@ socket.on('unAuthorizedCallback', (response) => {
   )
 });
 
+ 
 
 fragmentt = document.createDocumentFragment();
 tablee = document.createElement("table");
@@ -182,6 +183,8 @@ function showlog(i) {
 
   socket.emit('bidlogForBidder', { product_code: $('#pcode_' + i).val(), user_id: getLoggedUserDetails().user_id, token: getLoggedUserDetails().token })
 
+       
+      
   socket.on('bidLogForBidderCallback', (response) => {
 
     postlog_data = response;
@@ -227,4 +230,43 @@ socket.on('unAuthorizedCallback', (response) => {
   }
   )
 });
+
+var timeout;
+
+function timeoutFunction() {
+    typing = false;
+    socket.emit("typing", false);
+}
+
+
+
+$(document).ready(function(){
+  $('.bid_input').keyup(function() {
+    $(".bid_input").keydown(function(){
+       typing = true;
+      $(".bid_input").css("background-color", "yellow");
+      console.log('happening');
+      socket.emit('typing', getLoggedUserDetails().user_id);
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction, 2000);
+
+    });
+    $(".bid_input").keyup(function(){
+          typing = true;
+      socket.emit('typing', getLoggedUserDetails().user_id);
+      console.log('happening..');
+      $(".bid_input").css("background-color", "pink");
+       clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction, 2000);
+    });
+    
+    
+    
+    // typing = true;
+    // socket.emit('typing', getLoggedUserDetails().user_id);
+    // clearTimeout(timeout);
+    // timeout = setTimeout(timeoutFunction, 2000);
+});
+});
+
 

@@ -21,9 +21,6 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
@@ -148,6 +145,7 @@
     </div>
   </div>
 
+  <div id="aaaa">..</div>
 
 
   <div id="auctions">
@@ -226,7 +224,7 @@
             '<th>Description</th>' +
             '<th>Start-Bid</th>' +
             '<th>Current-Bid</th>' +
-            '<th>Bidder ID</th>' +
+            '<th>Lowest Bidder ID</th>' +
             '</tr>';
 
           table.appendChild(thead);
@@ -257,7 +255,7 @@
             td6 = document.createElement("td");
 
             td1.innerHTML = '<span class="badge badge-danger"  id="time_' + i + '">' + remainT + '</span>';
-            space.innerHTML = proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + pcodee + '" type="button" onclick = "showAlog(' + pcodee + ');">' + 'Bid Log' + '</button>';
+            space.innerHTML = '<div>' +proName + '&nbsp;&nbsp;' + '<span style="color:red; font:bold 30px">' + '(' + quantity + ')' + '</span>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<button class="btn btn-outline-info btn-sm" id="bidlog_' + pcodee + '" type="button" onclick = "showAlog(' + pcodee + ');">' + 'Bid Log' + '</button>' + '</div>' + '<div class="text-muted" id="bidderStatus_' + pcodee + '">' + '...' + '</div>';
             td5.innerHTML = descr;
             td3.innerHTML = stBid
             td2.innerHTML = '<span id = "cuurbid_' + pcodee + '">' + crBid + '</span><input type="hidden" id="pcode_' + pcodee + '" value="' + pcodee + '"/>';
@@ -296,6 +294,7 @@
       }
     });
 
+  
 
 
     function updateData() {
@@ -345,6 +344,8 @@
       )
     });
 
+
+
     function AddProduct() {
 
       var quantity = document.getElementById('quan').value;
@@ -381,6 +382,8 @@
       })
     });
 
+   
+
     fragmentt = document.createDocumentFragment();
     tablee = document.createElement("table");
 
@@ -388,7 +391,8 @@
       $('#loggTTable tr').remove();
 
       socket.emit('bidlogForAdmin', { product_code: $('#pcode_' + i).val(), name: getLoggedUserDetails().user_name, token: getLoggedUserDetails().token });
-
+      
+      
     }
 
     socket.on('bidlogForAdminCallBack', (response) => {
@@ -429,12 +433,32 @@
     });
 
 
+    var status_field = document.getElementById("aaaa");
+           
+  
+      socket.on('typing_callback' , function(data) {
+              alert('asd');
+              if(data) {
+                console.log('asd');
+                status_field.innerHTML = 'asassdasd'
+
+                status_field.innerHTML = '<p><em>' + data + ' is typing...</em></p>'
+              }
+              
+              else {
+                status_field.innerHTML = 'asd';
+              }
+            });
+
+
+   
 
     window.addEventListener("beforeunload", function () {
       console.log("Close web socket");
       socket.close();
     });
 
+    
 
   </script>
 

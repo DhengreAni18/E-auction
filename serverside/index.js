@@ -173,8 +173,16 @@ io.on('connect', (socket) => {
 
         });
 
-        socket.on('postBid', (request) => {
 
+        socket.on('typing' , function(data) {
+                if(data) {
+                        socket.emit('typing_callback',data);
+                        console.log(data);                             
+                }
+                
+        });
+
+        socket.on('postBid', (request) => {
 
                 console.log("Bid Request " + JSON.stringify(request));
 
