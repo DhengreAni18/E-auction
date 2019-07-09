@@ -1,5 +1,5 @@
 # E-auction
-#### ( A Realtime web based online auction platform. )
+ ( A Realtime web based online auction platform. )
 
 
 
