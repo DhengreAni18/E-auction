@@ -12,6 +12,7 @@
 npm install
 ```
 
+##
 :fire: *__Technologies Used__ :*
 
 * __Firebase realtime database :__ Firebase realtime database has been used to store the data of users, products, etc. The realtime database helps to keep track of every change in the data values and reflects to user as any data changes.
