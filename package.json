@@ -1,0 +1,25 @@
+{
+  "name": "timertest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "firebase": "^6.1.1",
+    "firebase-admin": "^8.1.0",
+    "moment": "^2.24.0",
+    "node-cron": "^2.0.3",
+    "redis": "^2.8.0",
+    "socket.io": "^2.2.0",
+    "websocket": "^1.0.28"
+  }
+}
