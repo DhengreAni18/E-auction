@@ -98,6 +98,16 @@ socket.on('getAuctionsBidderCallback', (response) => {
          console.log(pcode);
          
       });
+
+      // $('.bid_input').focusout(function(e){
+      //   console.log('happening..');
+        
+      //       var pcode = $(this).attr("data-pcode");
+      //         socket.emit('typing', {user_id:'' , pcode:pcode});
+      //    console.log(pcode);
+         
+      // });
+
       isAuctionTableCreated = true;
     }
     else {
@@ -169,7 +179,11 @@ tablee = document.createElement("table");
 
 function showlog(i) {
   $('#loggTTable tr').remove();
-  socket.emit('bidlogForBidder', { product_code: $('#pcode_' + i).val(), user_id: getLoggedUserDetails().user_id, token: getLoggedUserDetails().token })
+  socket.emit('bidlogForBidder', {
+    product_code: $('#pcode_' + i).val(),
+    user_id: getLoggedUserDetails().user_id,
+    token: getLoggedUserDetails().token
+   })
 
   socket.on('bidLogForBidderCallback', (response) => {
 

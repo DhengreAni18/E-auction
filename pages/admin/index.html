@@ -446,11 +446,13 @@
         
             console.log(activeUsers);
 
-            setInterval(clearBidder , 2000);
+            setInterval(clearBidder , 10000);
 
             function clearBidder() {
               activeUsers = [];
               console.log('clear array');
+              var status_field = document.getElementById("bidderStatus_" + data.pcode);
+              status_field.innerText = '';
               bidderStatus();
             }
       
