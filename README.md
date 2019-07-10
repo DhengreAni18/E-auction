@@ -1,5 +1,5 @@
 # E-auction
-#### ( A Realtime web based online auction platform. )
+ ( A Realtime web based online auction platform. )
 
 
 
@@ -12,6 +12,7 @@
 npm install
 ```
 
+##
 :fire: *__Technologies Used__ :*
 
 * __Firebase realtime database :__ Firebase realtime database has been used to store the data of users, products, etc. The realtime database helps to keep track of every change in the data values and reflects to user as any data changes.
@@ -22,7 +23,7 @@ npm install
 
 * __MomentJS__ : MomentJS a javascript time and date library has been used to handle all timestamp related things.
 
-
+##
 :star: *__Key features of Project__ :*
 
 
@@ -34,7 +35,7 @@ npm install
 
 4. __Speed__ : As the Nodejs server of the project is integrated with the **socketio**, due to the use of web sockets the response available to the user is seamlessly fast.
 
-
+##
 :star: *__Features for Bidder user__* : 
 
 1. __Fast bid posting__ : Due to nodejs and socketIO, it posts the bid very fast.
@@ -43,7 +44,7 @@ npm install
 
 3. __Bid log__ : Bid log shows into the modal in which previous bids of that particular user shows with the timestamps.
 
-
+##
 :star: *__Features for Admin__* : 
 
 1. __Current top bidder__ : Top bidder's user id, displays into the table view of the admin panel to get notified about the status of the auction.
