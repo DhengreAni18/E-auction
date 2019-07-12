@@ -26,6 +26,7 @@ npm install
 
 * __MomentJS__ : MomentJS a javascript time and date library has been used to handle all timestamp related things.
 
+* __Redis__ : Redis is used for caching including generation and token validation for users authentication.
 ##
 :star: *__Key features of Project__ :*
 
