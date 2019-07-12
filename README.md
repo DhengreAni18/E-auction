@@ -6,11 +6,14 @@
 ##
 :arrow_forward:  __*Installation*__
 
-@E-auction/serverside/ to install node dependencies :
+* @E-auction/serverside/ to install node dependencies :
 
 ```bash
 npm install
 ```
+* Install redis server :
+    * https://redis.io/  -- For Linux based OS
+    * https://github.com/ServiceStack/redis-windows  -- For windows
 
 ##
 :fire: *__Technologies Used__ :*
