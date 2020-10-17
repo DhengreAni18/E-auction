@@ -60,7 +60,8 @@ npm install
 4. __Bidder status__ : The admin gets to knows bidder status such as Online Bidders, Bidder typing status.
 
 
-
+Thank you! 
+Happy coding!
 
 
 
