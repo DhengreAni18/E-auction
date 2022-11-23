@@ -19,7 +19,7 @@
     "moment": "^2.24.0",
     "node-cron": "^2.0.3",
     "redis": "^2.8.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.5.0",
     "websocket": "^1.0.28"
   }
 }
