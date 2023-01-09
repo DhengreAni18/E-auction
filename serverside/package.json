@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
     "firebase": "^6.1.1",
-    "firebase-admin": "^8.1.0",
+    "firebase-admin": "^11.4.1",
     "moment": "^2.24.0",
     "node-cron": "^2.0.3",
     "redis": "^2.8.0",
